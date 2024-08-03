@@ -30,6 +30,25 @@
                 emailElement.style.display = "none";
             }
         }
+	        function notifyOnBirthday() {
+            const today = new Date();
+            const birthday = new Date(today.getFullYear(), 7, 4);
+            if (today.getMonth() === 7 && today.getDate() === 4) {
+                if (!("Notification" in window)) {
+                    alert("This browser does not support notifications :( ");
+                } else if (Notification.permission === "granted") {
+                    var notification = new Notification("Today is my birthday!");
+                } else if (Notification.permission !== "denied") {
+                    Notification.requestPermission(function (permission) {
+                        if (permission === "granted") {
+                            var notification = new Notification("Today is my birthday!");
+                        }
+                    });
+                }
+            }
+        }
+
+        notifyOnBirthday();
     </script>
 
 </html>
