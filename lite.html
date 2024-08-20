@@ -6,136 +6,135 @@
 <title id="fav">About me: Lite version</title>
 <head>
 <div>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-        body  {
-          font-family: "DM Sans", sans-serif;
-        }
-        </style>
 <body>
-
     <button id="dl" onclick="myFunction()">Light/dark mode</button>
     <button class="button2" onclick="toggleLanguage()">RU/UA/EN</button>
     <a href="index.html">
         <button id="normal">Normal version</button>
     </a>
     <script>
-    function myFunction() {
-        var element = document.body;
-        element.classList.toggle("dark-mode");
-    }
+        function myFunction() {
+            var element = document.body;
+            element.classList.toggle("dark-mode");
+        }
 
-    function notifyOnBirthday() {
-        const today = new Date();
-        const birthday = new Date(today.getFullYear(), 7, 4);
-        if (today.getMonth() === 7 && today.getDate() === 4) {
-            if (Notification.permission === "granted") {
-                var notification = new Notification("Today is my birthday!");
-            } else if (Notification.permission !== "denied") {
-                Notification.requestPermission(function (permission) {
-                    if (permission === "granted") {
-                        var notification = new Notification("Today is my birthday!");
-                    }
-                });
+        function notifyOnBirthday() {
+            const today = new Date();
+            const birthday = new Date(today.getFullYear(), 7, 4);
+            if (today.getMonth() === 7 && today.getDate() === 4) {
+                if (Notification.permission === "granted") {
+                    var notification = new Notification("Today is my birthday!");
+                } else if (Notification.permission !== "denied") {
+                    Notification.requestPermission(function (permission) {
+                        if (permission === "granted") {
+                            var notification = new Notification("Today is my birthday!");
+                        }
+                    });
+                }
             }
+        }
+
+        notifyOnBirthday();
+
+        document.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+            });
+            let currentLanguage = 'en';
+
+    function toggleLanguage() {
+        if (currentLanguage === 'en') {
+            translateToRussian();
+            currentLanguage = 'ru';
+        } else if (currentLanguage === 'ru') {
+            translateToUkrainian();
+            currentLanguage = 'ua';
+        } else {
+            translateToEnglish();
+            currentLanguage = 'en';
         }
     }
 
-    notifyOnBirthday();
-
-    document.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
-        });
-        let currentLanguage = 'en';
-
-function toggleLanguage() {
-    if (currentLanguage === 'en') {
-        translateToRussian();
-        currentLanguage = 'ru';
-    } else if (currentLanguage === 'ru') {
-        translateToUkrainian();
-        currentLanguage = 'ua';
-    } else {
-        translateToEnglish();
-        currentLanguage = 'en';
+    function translateToRussian() {
+        document.getElementById('about-me').innerText = 'Обо мне';
+        document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
+        document.getElementById('pronouns').innerText = 'Местоимения: он/его';
+        document.getElementById('hobbies').innerText = 'Хобби:';
+        document.getElementById('hobby1').innerText = '- Создание веб-сайтов с использованием HTML и CSS';
+        document.getElementById('hobby2').innerText = '- Рисование (я не очень хорошо, но стараюсь)';
+        document.getElementById('links').innerText = 'Ссылки:';
+        document.getElementById('tg').innerHTML = 'Telegram канал';
+        document.getElementById('ot').innerText = 'Другое:';
+        document.getElementById('ds').innerHTML = 'Скачать сайт';
+        document.getElementById('dl').innerHTML = 'Светлая/тёмная тема';
+        document.getElementById('fav').innerText = 'Обо мне: Простая версия';
+        document.getElementById('normal').innerHTML = 'Нормальная версия';
+        document.getElementById('mp').innerHTML = 'Моя программа <sup>NEW</sup>';
     }
-}
 
-function translateToRussian() {
-    document.getElementById('about-me').innerText = 'Обо мне';
-    document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
-    document.getElementById('pronouns').innerText = 'Местоимения: он/его';
-    document.getElementById('hobbies').innerText = 'Хобби:';
-    document.getElementById('hobby1').innerText = '- Создание веб-сайтов с использованием HTML и CSS';
-    document.getElementById('hobby2').innerText = '- Рисование (я не очень хорошо, но стараюсь)';
-    document.getElementById('links').innerText = 'Ссылки:';
-    document.getElementById('tg').innerHTML = 'Telegram канал';
-    document.getElementById('ot').innerText = 'Другое:';
-    document.getElementById('ds').innerHTML = 'Скачать сайт';
-    document.getElementById('dl').innerHTML = 'Светлая/тёмная тема';
-    document.getElementById('fav').innerText = 'Обо мне: Простая версия';
-    document.getElementById('normal').innerHTML = 'Нормальная версия';
-    document.getElementById('mp').innerHTML = 'Моя программа <sup>NEW</sup>';
-}
+    function translateToUkrainian() {
+        document.getElementById('about-me').innerText = 'Про мене';
+        document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
+        document.getElementById('pronouns').innerText = 'Займенники: він/його';
+        document.getElementById('hobbies').innerText = 'Хобі:';
+        document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
+        document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
+        document.getElementById('links').innerText = 'Посилання:';
+        document.getElementById('tg').innerHTML = 'Telegram канал';
+        document.getElementById('ot').innerText = 'Інше:';
+        document.getElementById('ds').innerHTML = 'Завантажити сайт';
+        document.getElementById('dl').innerHTML = 'Світла/темна тема';
+        document.getElementById('fav').innerText = 'Про мене: Проста версія';
+        document.getElementById('normal').innerHTML = 'Нормальна версія';
+        document.getElementById('mp').innerHTML = 'Моя програма <sup>NEW</sup>';
+    }
 
-function translateToUkrainian() {
-    document.getElementById('about-me').innerText = 'Про мене';
-    document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
-    document.getElementById('pronouns').innerText = 'Займенники: він/його';
-    document.getElementById('hobbies').innerText = 'Хобі:';
-    document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
-    document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
-    document.getElementById('links').innerText = 'Посилання:';
-    document.getElementById('tg').innerHTML = 'Telegram канал';
-    document.getElementById('ot').innerText = 'Інше:';
-    document.getElementById('ds').innerHTML = 'Завантажити сайт';
-    document.getElementById('dl').innerHTML = 'Світла/темна тема';
-    document.getElementById('fav').innerText = 'Про мене: Проста версія';
-    document.getElementById('normal').innerHTML = 'Нормальна версія';
-    document.getElementById('mp').innerHTML = 'Моя програма <sup>NEW</sup>';
-}
-
-function translateToEnglish() {
-    document.getElementById('about-me').innerText = 'About me';
-    document.getElementById('intro').innerText = 'Hi my name is Dima';
-    document.getElementById('pronouns').innerText = 'Pronouns: he/him';
-    document.getElementById('hobbies').innerText = 'Hobbies:';
-    document.getElementById('hobby1').innerText = '- Create websites using HTML and CSS';
-    document.getElementById('hobby2').innerText = '- Drawing (I’m not doing well, but I’m trying)';
-    document.getElementById('links').innerText = 'Links:';
-    document.getElementById('tg').innerHTML = 'Telegram channel';
-    document.getElementById('ot').innerText = 'Other:';
-    document.getElementById('ds').innerHTML = 'Download site';
-    document.getElementById('dl').innerHTML = 'Light/dark mode';
-    document.getElementById('fav').innerText = 'About me: Lite version';
-    document.getElementById('normal').innerHTML = 'Normal version';
-    document.getElementById('mp').innerHTML = 'My program <sup>NEW</sup>';
-}
+    function translateToEnglish() {
+        document.getElementById('about-me').innerText = 'About me';
+        document.getElementById('intro').innerText = 'Hi my name is Dima';
+        document.getElementById('pronouns').innerText = 'Pronouns: he/him';
+        document.getElementById('hobbies').innerText = 'Hobbies:';
+        document.getElementById('hobby1').innerText = '- Create websites using HTML and CSS';
+        document.getElementById('hobby2').innerText = '- Drawing (I’m not doing well, but I’m trying)';
+        document.getElementById('links').innerText = 'Links:';
+        document.getElementById('tg').innerHTML = 'Telegram channel';
+        document.getElementById('ot').innerText = 'Other:';
+        document.getElementById('ds').innerHTML = 'Download site';
+        document.getElementById('dl').innerHTML = 'Light/dark mode';
+        document.getElementById('fav').innerText = 'About me: Lite version';
+        document.getElementById('normal').innerHTML = 'Normal version';
+        document.getElementById('mp').innerHTML = 'My program <sup>NEW</sup>';
+    }
     </script>
 
 </html>
 </head>
 <style>
-	body { 
-	-ms-user-select: none; 
-	-moz-user-select: none; 
-	-webkit-user-select: none; 
-	user-select: none; 
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+	body {
+        font-family: "DM Sans", sans-serif;
+	    -ms-user-select: none; 
+	    -moz-user-select: none; 
+	    -webkit-user-select: none; 
+	    user-select: none; 
         padding: 25px;
         background-color: white;
         color: black;
     }
+
     .dark-mode {
         background-color: black;
         color: white;
     }
+
     div{
         text-align: center;
     }
+
     .dark-mode {
         background-color: black;
         color: white;
     }
+
     a { 
         text-decoration: none;
         display: inline;
@@ -143,15 +142,18 @@ function translateToEnglish() {
         margin: 0;
         padding: 4px;
     }
+
     .a_1 {
         text-decoration: none;
         text-align:center;
         padding: 15px;
         display: inline;
     }
+
     .button1 {
         margin-right: 15px;
     }
+
 </style>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
