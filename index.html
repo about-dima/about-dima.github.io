@@ -2,45 +2,26 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="./style.css">
-
 </head>
 <body>
 <!DOCTYPE html>
 <html>
+    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
     <link rel="icon" href="img/name_icon.png" type="image/x-icon"  id="favicon">
 </html>
 <title id="fav">About me</title>
 <head>
-<body>
-    <link rel="stylesheet" href="/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.css" />
-    <div class="navbar">
-        <a href="">
-            <img src="name_icon.png" alt="logo" class="logo__img_header" width="40">
-          </a>
-          <div>
-            <a data-tooltip="RU/UA/EN" href="javascript:toggleLanguage()">
-            <img src="img/language.png" alt="language" class="button_img2" width="30">
-          </a>
-          <a data-tooltip="Light/dark mode" href="javascript:myFunction()">
-            <img src="img/night-day.png" alt="light/dark mode" class="button_img2" width="30">
-          </a>
-          <a id="lite-link" class="images" data-tooltip="Lite version" href="lite.html">
-            <img class="images" src="img/icon_lite.png" alt="Lite version" class="button_img2" width="30">
-          </a>
-          </div>
-    </div>
-
     <script>
         function myFunction() {
             var element = document.body;
             element.classList.toggle("dark-mode");
-
+    
             var favicon = document.getElementById('favicon');
             var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
             var img = new Image();
             img.src = favicon.href;
-
+    
             img.onload = function() {
                 canvas.width = img.width;
                 canvas.height = img.height;
@@ -54,158 +35,165 @@
                 favicon.href = canvas.toDataURL('image/png');
             };
         }
-    function notifyOnBirthday() {
-        const today = new Date();
-        const birthday = new Date(today.getFullYear(), 7, 4);
-        if (today.getMonth() === 7 && today.getDate() === 4) {
-            if (Notification.permission === "granted") {
-                var notification = new Notification("Today is my birthday!");
-            } else if (Notification.permission !== "denied") {
-                Notification.requestPermission(function (permission) {
-                    if (permission === "granted") {
-                        var notification = new Notification("Today is my birthday!");
-                    }
-                });
+    
+        function notifyOnBirthday() {
+            const today = new Date();
+            const birthday = new Date(today.getFullYear(), 7, 4);
+            if (today.getMonth() === 7 && today.getDate() === 4) {
+                if (Notification.permission === "granted") {
+                    var notification = new Notification("Today is my birthday!");
+                } else if (Notification.permission !== "denied") {
+                    Notification.requestPermission(function (permission) {
+                        if (permission === "granted") {
+                            var notification = new Notification("Today is my birthday!");
+                        }
+                    });
+                }
             }
         }
-    }
-
-    notifyOnBirthday();
-    document.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
+    
+        notifyOnBirthday();
+        document.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+            });
+            let currentLanguage = 'en';
+    
+        document.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+            });
+            function toggleLanguage() {
+        if (currentLanguage === 'en') {
+            translateToRussian();
+            currentLanguage = 'ru';
+        } else if (currentLanguage === 'ru') {
+            translateToUkrainian();
+            currentLanguage = 'ua';
+        } else {
+            translateToEnglish();
+            currentLanguage = 'en';
+        }
+        }
+    
+        function translateToRussian() {
+            document.getElementById('about-me').innerText = 'Обо мне';
+            document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
+            document.getElementById('pronouns').innerText = 'Местоимения: он/его';
+            document.getElementById('hobbies').innerText = 'Хобби:';
+            document.getElementById('hobby1').innerText = '- Создание веб-сайтов с использованием HTML и CSS';
+            document.getElementById('hobby2').innerText = '- Рисование (я не очень хорошо, но стараюсь)';
+            document.getElementById('links').innerText = 'Ссылки:';
+            document.getElementById('tg').innerHTML = '<img src="telegram.png" height="20" class="button1">Telegram канал';
+            document.getElementById('ot').innerText = 'Другое:';
+            document.getElementById('ds').innerHTML = '<img src="download.png" height="25" class="button6"> Скачать сайт';
+            document.getElementById('fav').innerText = 'Обо мне';
+            document.getElementById('mp').innerHTML = '<img src="python.png" height="25" class="button6">Моя программа <sup>NEW</sup>';
+        }
+    
+        function translateToUkrainian() {
+            document.getElementById('about-me').innerText = 'Про мене';
+            document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
+            document.getElementById('pronouns').innerText = 'Займенники: він/його';
+            document.getElementById('hobbies').innerText = 'Хобі:';
+            document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
+            document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
+            document.getElementById('links').innerText = 'Посилання:';
+            document.getElementById('tg').innerHTML = '<img src="telegram.png" height="20" class="button1">Telegram канал';
+            document.getElementById('ot').innerText = 'Інше:';
+            document.getElementById('ds').innerHTML = '<img src="download.png" height="25" class="button6">Завантажити сайт';
+            document.getElementById('fav').innerText = 'Про мене';
+            document.getElementById('mp').innerHTML = '<img src="python.png" height="25" class="button6">Моя програма <sup>NEW</sup>';
+        }
+    
+        function translateToEnglish() {
+            document.getElementById('about-me').innerText = 'About me';
+            document.getElementById('intro').innerText = 'Hi my name is Dima';
+            document.getElementById('pronouns').innerText = 'Pronouns: he/him';
+            document.getElementById('hobbies').innerText = 'Hobbies:';
+            document.getElementById('hobby1').innerText = '- Create websites using HTML and CSS';
+            document.getElementById('hobby2').innerText = '- Drawing (I’m not doing well, but I’m trying)';
+            document.getElementById('links').innerText = 'Links:';
+            document.getElementById('tg').innerHTML = '<img src="telegram.png" height="20" class="button1"> Telegram channel';
+            document.getElementById('ot').innerText = 'Other:';
+            document.getElementById('ds').innerHTML = '<img src="download.png" height="25" class="button6">Download site';
+            document.getElementById('fav').innerText = 'About me';
+            document.getElementById('mp').innerHTML = '<img src="python.png" height="25" class="button6">My program <sup>NEW</sup>';
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var liteLink = document.getElementById('lite-link');
+    
+            liteLink.addEventListener('click', function (event) {
+                event.preventDefault();
+    
+                var body = document.body;
+    
+                body.classList.add('fade-out');
+    
+                setTimeout(function () {
+                    window.location.href = liteLink.href;
+                }, 500);
+            });
         });
-        let currentLanguage = 'en';
 
-    document.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
-        });
-        function toggleLanguage() {
-    if (currentLanguage === 'en') {
-        translateToRussian();
-        currentLanguage = 'ru';
-    } else if (currentLanguage === 'ru') {
-        translateToUkrainian();
-        currentLanguage = 'ua';
-    } else {
-        translateToEnglish();
-        currentLanguage = 'en';
-    }
-}
-
-function translateToRussian() {
-    document.getElementById('about-me').innerText = 'Обо мне';
-    document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
-    document.getElementById('pronouns').innerText = 'Местоимения: он/его';
-    document.getElementById('hobbies').innerText = 'Хобби:';
-    document.getElementById('hobby1').innerText = '- Создание веб-сайтов с использованием HTML и CSS';
-    document.getElementById('hobby2').innerText = '- Рисование (я не очень хорошо, но стараюсь)';
-    document.getElementById('links').innerText = 'Ссылки:';
-    document.getElementById('tg').innerHTML = '<img src="telegram.png" height="20" class="button1">Telegram канал';
-    document.getElementById('ot').innerText = 'Другое:';
-    document.getElementById('ds').innerHTML = '<img src="download.png" height="25" class="button6"> Скачать сайт';
-    document.getElementById('fav').innerText = 'Обо мне';
-    document.getElementById('mp').innerHTML = '<img src="python.png" height="25" class="button6">Моя программа <sup>NEW</sup>';
-}
-
-function translateToUkrainian() {
-    document.getElementById('about-me').innerText = 'Про мене';
-    document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
-    document.getElementById('pronouns').innerText = 'Займенники: він/його';
-    document.getElementById('hobbies').innerText = 'Хобі:';
-    document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
-    document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
-    document.getElementById('links').innerText = 'Посилання:';
-    document.getElementById('tg').innerHTML = '<img src="telegram.png" height="20" class="button1">Telegram канал';
-    document.getElementById('ot').innerText = 'Інше:';
-    document.getElementById('ds').innerHTML = '<img src="download.png" height="25" class="button6">Завантажити сайт';
-    document.getElementById('fav').innerText = 'Про мене';
-    document.getElementById('mp').innerHTML = '<img src="python.png" height="25" class="button6">Моя програма <sup>NEW</sup>';
-}
-
-function translateToEnglish() {
-    document.getElementById('about-me').innerText = 'About me';
-    document.getElementById('intro').innerText = 'Hi my name is Dima';
-    document.getElementById('pronouns').innerText = 'Pronouns: he/him';
-    document.getElementById('hobbies').innerText = 'Hobbies:';
-    document.getElementById('hobby1').innerText = '- Create websites using HTML and CSS';
-    document.getElementById('hobby2').innerText = '- Drawing (I’m not doing well, but I’m trying)';
-    document.getElementById('links').innerText = 'Links:';
-    document.getElementById('tg').innerHTML = '<img src="telegram.png" height="20" class="button1"> Telegram channel';
-    document.getElementById('ot').innerText = 'Other:';
-    document.getElementById('ds').innerHTML = '<img src="download.png" height="25" class="button6">Download site';
-    document.getElementById('fav').innerText = 'About me';
-    document.getElementById('mp').innerHTML = '<img src="python.png" height="25" class="button6">My program <sup>NEW</sup>';
-}
-document.addEventListener('DOMContentLoaded', function () {
-    var liteLink = document.getElementById('lite-link');
-
-    liteLink.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        var body = document.body;
-
-        body.classList.add('fade-out');
-
-        setTimeout(function () {
-            window.location.href = liteLink.href;
-        }, 500);
-    });
-});
-
-    </script>
-<link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
-<link href="style.css" rel="stylesheet" type="text/css">
-</html>
-</head>
-<style>
-    [data-tooltip] {
-    position: relative; 
-   }
-   [data-tooltip]::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    margin-top: 5px;
-    width: 80px;
-    border-radius: 5px;
-    left: 0; top: 0;
-    background: #e9e9e9;
-    color: #333333;
-    border:1px solid #333333;
-    pointer-events: none;
-    opacity: 0;
-    transition: 0.4s;
-   } 
-   [data-tooltip]:hover::after {
-    opacity: 1;
-    top: 2em;
-   }
-   .dark-mode [data-tooltip]::after {
-    background: #333333;
-    color: #fff;
-    border:1px solid #e9e9e9;
-   }
-    .logo__img_header {
-        margin: auto;
-        justify-content: center;
-    }
-	body { 
-        margin: 0;
-		-ms-user-select: none; 
-		-moz-user-select: none; 
-		-webkit-user-select: none; 
-		user-select: none; 
-	}
-    .button2 {
+        </script>
+    
+    <style>
+        [data-tooltip] {
+        position: relative; 
+       }
+    
+       [data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        margin-top: 5px;
+        width: 80px;
+        border-radius: 5px;
+        left: 0; top: 0;
+        background: #e9e9e9;
+        color: #333333;
+        border:1px solid #333333;
+        pointer-events: none;
+        opacity: 0;
+        transition: 0.4s;
+       } 
+    
+       [data-tooltip]:hover::after {
+        opacity: 1;
+        top: 2em;
+       }
+    
+       .dark-mode [data-tooltip]::after {
+        background: #333333;
+        color: #fff;
+        border:1px solid #e9e9e9;
+       }
+    
+        .logo__img_header {
+            margin: auto;
+            justify-content: center;
+        }
+    
+        body { 
+            margin: 0;
+            -ms-user-select: none; 
+            -moz-user-select: none; 
+            -webkit-user-select: none; 
+            user-select: none; 
+        }
+    
+        .button2 {
             margin-top: 40px;
             margin-right: 60px;
         }
+    
         .button3 {
             margin-right: 40px;
         }
+    
         images {
             display: flex;
             justify-content: left;
         }
+    
         .navbar {
             display: flex;
             align-items: center;
@@ -219,166 +207,215 @@ document.addEventListener('DOMContentLoaded', function () {
             width: 100%;
             z-index: 1000;
         }
+    
         .navbar a {
             text-decoration: none;
             color: black;
             padding: 8px 16px;
         }
+    
         .dark-mode .navbar {
             background-color: #1e1e1eae;
             backdrop-filter: blur(3px);
             border-bottom: 1px solid #646464;
         }
+    
         .dark-mode button:focus {
             outline: none;
             box-shadow: 0 0 0 4px #56abffa4;
         }
+    
         .dark-mode button {
             background-color: #333333;
             border: 1px solid #646464;
         }
+    
         .dark-mode img {
             filter: invert(0) hue-rotate(180deg);
         }
+    
         body .logo__img_header {
             filter: invert(0) hue-rotate(180deg);
         }
+    
         .dark-mode .logo__img_header {
             filter: invert(1) hue-rotate(180deg);
         }
+    
         .dark-mode button:hover {
-        background: rgba(137, 137, 137, 0.684);
-        opacity: 1.0;
-        transition: 0.3s;  
+            background: rgba(137, 137, 137, 0.684);
+            opacity: 1.0;
+            transition: 0.3s;  
         }
+    
         .dark-mode button:hover {opacity: 1.0}
-
+    
         .dark-mode #favicon {
             filter: invert(0) hue-rotate(180deg);
         }
+    
         .dark-mode button {
             background: rgba(0, 0, 0, 0.426);
             opacity: 0.8;
             color: #ffffff;
         }
+    
         .dark-mode .navbar a {
             color: white;
         }
-    body {
-        background-color: #e9e9e9;
-        transition: 0.3s;
-        color: rgb(47, 47, 47);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-repeat: repeat;
-        background-position: center center;
-        background-attachment: fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    }
-    button {
-        appearance: none;
-        border: 0;
-        border-radius: 5px;
-        background: #e9e9e9;
-        color: #000000;
-        border:1px solid #cbcbcb;
-        padding: 8px 16px;
-        font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.8;
-        transition: 0.3s;   
-    }
-    button:hover {
-        background: rgb(203, 203, 203);
-    }
-    button:hover {opacity: 1}
-
-    button:focus {
-        outline: none;
-        box-shadow: 0 0 0 4px #006dda;
-    }
-    .dark-mode {
-        background-color: #333333;
-        transition: 0.3s;
-        color: white;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-repeat: repeat;
-        background-position: center center;
-        background-attachment: fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    }
-    a { 
-        text-decoration: none;
-        display: inline;
-        text-align:center;
-        margin: 0;
-        padding: 4px;
-        color: white;
-    }
-    .a_1 {
-        text-decoration: none;
-        text-align:center;
-        padding: 15px;
-        display: inline;
-    }
-    .button1 {
-        margin-right: 15px;
-        margin-bottom: -3px;
-    }
-    .button_img {
-        margin-right: 15px;
-    }
-    button_img2 {
-        justify-content: right;
-        margin-right: 15px;
-    }
-    img {
-        filter: invert(1) hue-rotate(180deg);
-        transition: 0.3s;
-    }
-    .button6 {
-        margin-right: 15px;
-        margin-bottom: -5px;
-    }
-    button_img1 {
-        left: 0; top: 0;
-    }
-    .button_margin {
-        margin-bottom: 50px;
-    }
-    sup {
-        color: #ffffff;
-        transition: 0.3s;
-        background-color: #000000;
-        border-radius: 5px;
-        padding: 3px 3px;
-        font-size: 10px;
-    }
-    .dark-mode sup {
-        transition: 0.3s;
-        color: #333333;
-        background-color: #e9e9e9;
-        border-radius: 5px;
-        padding: 3px 3px;
-    }
-    .h1_1 {
-        padding-top: 50px;
-    }
-    .fade-out {
-        animation: fadeOut 0.5s forwards;
-    }
-    @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-}
-</style>
+    
+        .dark-mode sup {
+            transition: 0.3s;
+            color: #333333;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+            padding: 3px 3px;
+        }
+    
+        body {
+            background-color: #e9e9e9;
+            transition: 0.3s;
+            color: rgb(47, 47, 47);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-repeat: repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    
+        button {
+            appearance: none;
+            border: 0;
+            border-radius: 5px;
+            background: #e9e9e9;
+            color: #000000;
+            border:1px solid #cbcbcb;
+            padding: 8px 16px;
+            font-size: 16px;
+            margin: 4px 2px;
+            opacity: 0.8;
+            transition: 0.3s;   
+        }
+    
+        button:hover {
+            background: rgb(203, 203, 203);
+        }
+    
+        button:hover {opacity: 1}
+    
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px #006dda;
+        }
+    
+        .dark-mode {
+            background-color: #333333;
+            transition: 0.3s;
+            color: white;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-repeat: repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    
+        a { 
+            text-decoration: none;
+            display: inline;
+            text-align:center;
+            margin: 0;
+            padding: 4px;
+            color: white;
+        }
+    
+        .a_1 {
+            text-decoration: none;
+            text-align:center;
+            padding: 15px;
+            display: inline;
+        }
+    
+        .button1 {
+            margin-right: 15px;
+            margin-bottom: -3px;
+        }
+    
+        .button_img {
+            margin-right: 15px;
+        }
+    
+        button_img2 {
+            justify-content: right;
+            margin-right: 15px;
+        }
+    
+        img {
+            filter: invert(1) hue-rotate(180deg);
+            transition: 0.3s;
+        }
+    
+        .button6 {
+            margin-right: 15px;
+            margin-bottom: -5px;
+        }
+    
+        button_img1 {
+            left: 0; top: 0;
+        }
+    
+        .button_margin {
+            margin-bottom: 50px;
+        }
+    
+        sup {
+            color: #ffffff;
+            transition: 0.3s;
+            background-color: #000000;
+            border-radius: 5px;
+            padding: 3px 3px;
+            font-size: 10px;
+        }
+    
+        .h1_1 {
+            padding-top: 50px;
+        }
+    
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+    
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+<body>
+    <div class="navbar">
+        <a href="">
+            <img src="img/name_icon.png" alt="logo" class="logo__img_header" width="40">
+          </a>
+          <div>
+            <a data-tooltip="RU/UA/EN" href="javascript:toggleLanguage()">
+            <img src="img/language.png" alt="language" class="button_img2" width="30">
+          </a>
+          <a data-tooltip="Light/dark mode" href="javascript:myFunction()">
+            <img src="img/night-day.png" alt="light/dark mode" class="button_img2" width="30">
+          </a>
+          <a id="lite-link" class="images" data-tooltip="Lite version" href="lite.html">
+            <img class="images" src="img/icon_lite.png" alt="Lite version" class="button_img2" width="30">
+          </a>
+          </div>
+    </div>
+</html>
+</head>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=0.9">
