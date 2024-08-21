@@ -7,6 +7,7 @@
 <head>
 <div>
 <body>
+
     <button id="dl" onclick="myFunction()">Light/dark mode</button>
     <button class="button2" onclick="toggleLanguage()">RU/UA/EN</button>
     <a href="index.html">
@@ -69,6 +70,7 @@
         document.getElementById('fav').innerText = 'Обо мне: Простая версия';
         document.getElementById('normal').innerHTML = 'Нормальная версия';
         document.getElementById('mp').innerHTML = 'Моя программа <sup>NEW</sup>';
+        document.getElementById('credits').innerText = 'Благодарность:';
     }
 
     function translateToUkrainian() {
@@ -86,6 +88,7 @@
         document.getElementById('fav').innerText = 'Про мене: Проста версія';
         document.getElementById('normal').innerHTML = 'Нормальна версія';
         document.getElementById('mp').innerHTML = 'Моя програма <sup>NEW</sup>';
+        document.getElementById('credits').innerText = 'Подяка:';
     }
 
     function translateToEnglish() {
@@ -103,6 +106,7 @@
         document.getElementById('fav').innerText = 'About me: Lite version';
         document.getElementById('normal').innerHTML = 'Normal version';
         document.getElementById('mp').innerHTML = 'My program <sup>NEW</sup>';
+        document.getElementById('credits').innerText = 'Credits to:';
     }
     </script>
 
@@ -193,5 +197,8 @@
 <a href="mailto:dima849301@keemail.me">
     <button>E-mail</button>
 </a>
-&nbsp
+<p id="credits">Credits to:</p>
+    <a class="a_2" href="https://www.youtube.com/">YouTube</a>
+    <a class="a_2" href="https://habr.com">Habr</a>
+    <a class="a_2" href="https://stackoverflow.com/">Stack Overflow</a>
 </div>
