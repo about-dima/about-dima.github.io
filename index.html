@@ -11,6 +11,7 @@
 </html>
 <title id="fav">About me</title>
 <head>
+    <meta class="theme-color" name="theme-color" content="#1e1e1eae">
     <script>
         function myFunction() {
             var element = document.body;
@@ -87,6 +88,7 @@
             document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6"> Скачать сайт';
             document.getElementById('fav').innerText = 'Обо мне';
             document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Моя программа <sup>NEW</sup>';
+            document.getElementById('credits').innerText = 'Благодарность:';
         }
     
         function translateToUkrainian() {
@@ -97,11 +99,12 @@
             document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
             document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
             document.getElementById('links').innerText = 'Посилання:';
-            document.getElementById('tg').innerHTML = '<img src="telegram.png" height="20" class="button1">Telegram канал';
+            document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1">Telegram канал';
             document.getElementById('ot').innerText = 'Інше:';
             document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6">Завантажити сайт';
             document.getElementById('fav').innerText = 'Про мене';
             document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Моя програма <sup>NEW</sup>';
+            document.getElementById('credits').innerText = 'Подяка:';
         }
     
         function translateToEnglish() {
@@ -117,6 +120,7 @@
             document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6">Download site';
             document.getElementById('fav').innerText = 'About me';
             document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">My program <sup>NEW</sup>';
+            document.getElementById('credits').innerText = 'Credits to:';
         }
         document.addEventListener('DOMContentLoaded', function () {
             var liteLink = document.getElementById('lite-link');
@@ -330,7 +334,7 @@
         a { 
             text-decoration: none;
             display: inline;
-            text-align:center;
+            text-align: center;
             margin: 0;
             padding: 4px;
             color: white;
@@ -349,11 +353,6 @@
         }
     
         .button_img {
-            margin-right: 15px;
-        }
-    
-        button_img2 {
-            justify-content: right;
             margin-right: 15px;
         }
     
@@ -383,7 +382,23 @@
             padding: 3px 3px;
             font-size: 10px;
         }
-    
+        
+        a {
+            color: rgb(0, 0, 0);
+            transition: 0.3s;
+        }
+
+        .a_2 {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .dark-mode a {
+            color: white;
+        }
+
         .h1_1 {
             padding-top: 50px;
         }
@@ -396,6 +411,27 @@
             from { opacity: 1; }
             to { opacity: 0; }
         }
+
+        .credits {
+            justify-content: center;
+            flex-direction: column;
+            color: rgb(0, 0, 0);
+            margin-top: 40px;
+            padding-bottom: 20px;
+            border-top: 1px solid #00000023;
+            border-bottom: 1px solid #00000023;
+            background-color: #d4d4d4b4;
+            backdrop-filter: blur(3px);
+            transition: 0.3s;
+        }
+
+        .dark-mode .credits {
+            color: white;
+            background-color: #1e1e1eae;
+            backdrop-filter: blur(3px);
+            border-top: 1px solid #646464;
+            border-bottom: 1px solid #646464;
+        }
     </style>
 <body>
     <div class="navbar">
@@ -404,13 +440,13 @@
           </a>
           <div>
             <a data-tooltip="RU/UA/EN" href="javascript:toggleLanguage()">
-            <img src="img/language.png" alt="language" class="button_img2" width="30">
+            <img src="img/language.png" alt="language" class="button_img2" width="25">
           </a>
           <a data-tooltip="Light/dark mode" href="javascript:myFunction()">
-            <img src="img/night-day.png" alt="light/dark mode" class="button_img2" width="30">
+            <img src="img/night-day.png" alt="light/dark mode" class="button_img2" width="25">
           </a>
           <a id="lite-link" class="images" data-tooltip="Lite version" href="lite.html">
-            <img class="images" src="img/icon_lite.png" alt="Lite version" class="button_img2" width="30">
+            <img class="images" src="img/icon_lite.png" alt="Lite version" class="button_img2" width="25">
           </a>
           </div>
     </div>
@@ -418,7 +454,7 @@
 </head>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=0.9">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <h1 class="h1_1" id="about-me">About me</h1>
 <p id="intro">Hi my name is Dima</p>
 <p id="pronouns">Pronouns: he/him</p>
@@ -451,8 +487,13 @@
     <button id="mp"><img src="img/python.png" height="25" class="button6">My program <sup>NEW</sup></button>
 </a>
 <a href="mailto:dima849301@keemail.me">
-    <button class="button_margin"><img src="img/mail.png"  height="20" class="button1">E-mail</button>
+    <button><img src="img/mail.png"  height="20" class="button1">E-mail</button>
 </a>
-&nbsp 
+<div class="credits">
+<p id="credits">Credits to:</p>
+    <a class="a_2" href="https://www.youtube.com/">YouTube</a>
+    <a class="a_2" href="https://habr.com">Habr</a>
+    <a class="a_2" href="https://stackoverflow.com/">Stack Overflow</a>
+</div>
 </body>
 </html>
