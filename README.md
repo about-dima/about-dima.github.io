@@ -1,5 +1,6 @@
 # about-dima.github.io
-My site
+My personal site
 
 Screenshots:
-![image](https://github.com/user-attachments/assets/ed0f3bb3-5c59-4944-8703-1c197a9d6a48) ![image](https://github.com/user-attachments/assets/75b335a1-e626-4dfb-b777-807f8a14d912)
+![image](https://github.com/user-attachments/assets/16f8dc1d-3307-4efd-af29-4f0051797923) ![image](https://github.com/user-attachments/assets/e321adba-02af-41dd-8f63-d7ecfc80368a)
+
