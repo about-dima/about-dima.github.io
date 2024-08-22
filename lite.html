@@ -3,11 +3,12 @@
     <meta charset="UTF-8">
     <link rel="icon" href="img/name_icon_lite.png" type="image/x-icon">
 </html>
+<script src="jszip.min.js"></script>
+<script src="FileSaver.min.js"></script>
 <title id="fav">About me: Lite version</title>
 <head>
 <div>
 <body>
-
     <button id="dl" onclick="myFunction()">Light/dark mode</button>
     <button class="button2" onclick="toggleLanguage()">RU/UA/EN</button>
     <a href="index.html">
@@ -108,6 +109,65 @@
         document.getElementById('mp').innerHTML = 'My program <sup>NEW</sup>';
         document.getElementById('credits').innerText = 'Credits to:';
     }
+
+
+    async function downloadSite() {
+            const zip = new JSZip();
+            const urls = [
+                'index.html',
+                'style.css',
+                'script.js',
+                'lite.html',
+            ];
+
+            const photoFolder = 'photos/';
+            const photoUrls = [
+                'img/github.png',
+                'img/name_icon_lite.png',
+                'img/download.png',
+                'img/reddit.png',
+                'img/icon_lite.png',
+                'img/name_icon.png',
+                'img/night-day.png',
+                'img/telegram.png',
+                'img/twitter.png',
+                'img/youtube.png',
+                'img/python.png',
+                'img/language.png',
+                'img/light-mode.png',
+                'img/mail.png',
+            ];
+
+            for (const url of urls) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`Failed to fetch ${url}`);
+                    const data = await response.blob();
+                    zip.file(url, data);
+                } catch (error) {
+                    console.error(`Error fetching ${url}:`, error);
+                }
+            }
+
+            for (const photoUrl of photoUrls) {
+                try {
+                    const response = await fetch(photoUrl);
+                    if (!response.ok) throw new Error(`Failed to fetch ${photoUrl}`);
+                    const data = await response.blob();
+                    zip.file(photoUrl, data);
+                } catch (error) {
+                    console.error(`Error fetching ${photoUrl}:`, error);
+                }
+            }
+
+            try {
+                const content = await zip.generateAsync({ type: 'blob' });
+                saveAs(content, 'site.zip');
+            } catch (error) {
+                console.error('Error generating ZIP file:', error);
+            }
+        }
+        
     </script>
 
 </html>
@@ -188,9 +248,7 @@
 &nbsp
 <h1 id="ot">Other:</h1>
 &nbsp
-<a href="https://github.com/about-dima/about-dima.github.io">
-    <button id="ds">Download source</button>
-</a>
+<button onclick="downloadSite()" id="ds">Download site</button>
 <a href="https://github.com/DimaDomaratckiy2022/sleep">
     <button id="mp">My program <sup>NEW</sup></button>
 </a>
@@ -198,7 +256,8 @@
     <button>E-mail</button>
 </a>
 <p id="credits">Credits to:</p>
-    <a class="a_2" href="https://www.youtube.com/">YouTube</a>
-    <a class="a_2" href="https://habr.com">Habr</a>
-    <a class="a_2" href="https://stackoverflow.com/">Stack Overflow</a>
+    <a href="https://www.youtube.com/">YouTube</a>
+    <a href="https://habr.com">Habr</a>
+    <a href="https://stackoverflow.com/">Stack Overflow</a>
+    <a href="https://t.me/htmlshitchat">Telegram chat</a>
 </div>
