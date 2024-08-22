@@ -91,6 +91,7 @@
             document.getElementById('fav').innerText = 'Обо мне';
             document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Моя программа <sup>NEW</sup>';
             document.getElementById('credits').innerText = 'Благодарность:';
+            document.getElementById('tc').innerText = 'Telegram чат';
         }
     
         function translateToUkrainian() {
@@ -107,6 +108,7 @@
             document.getElementById('fav').innerText = 'Про мене';
             document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Моя програма <sup>NEW</sup>';
             document.getElementById('credits').innerText = 'Подяка:';
+            document.getElementById('tc').innerText = 'Telegram чат';
         }
     
         function translateToEnglish() {
@@ -123,6 +125,7 @@
             document.getElementById('fav').innerText = 'About me';
             document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">My program <sup>NEW</sup>';
             document.getElementById('credits').innerText = 'Credits to:';
+            document.getElementById('tc').innerText = 'Telegram chat';
         }
         document.addEventListener('DOMContentLoaded', function () {
             var liteLink = document.getElementById('lite-link');
@@ -546,7 +549,7 @@
     <a class="a_2" href="https://www.youtube.com/">YouTube</a>
     <a class="a_2" href="https://habr.com">Habr</a>
     <a class="a_2" href="https://stackoverflow.com/">Stack Overflow</a>
-    <a class="a_2" href="https://t.me/htmlshitchat">Telegram chat</a>
+    <a id="tc" class="a_2" href="https://t.me/htmlshitchat">Telegram chat</a>
   </footer>
 </body>
 </html>
