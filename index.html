@@ -201,7 +201,16 @@
                 console.error('Error generating ZIP file:', error);
             }
         }
-        
+            let prevScrollpos = window.pageYOffset;
+            window.onscroll = function() {
+            let currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                document.getElementById("navbar").style.top = "0";
+            } else {
+                document.getElementById("navbar").style.top = "-50px";
+            }
+            prevScrollpos = currentScrollPos;
+        }
 
         </script>
     
@@ -214,7 +223,6 @@
         content: attr(data-tooltip);
         position: absolute;
         margin-top: 5px;
-        width: 80px;
         border-radius: 5px;
         left: 0; top: 0;
         background: #e9e9e9;
@@ -489,7 +497,7 @@
     </style>
 <body>
   <div class="container">
-     <div class="navbar">
+     <div id="navbar" class="navbar">
         <a href="">
             <img src="img/name_icon.png" alt="logo" class="logo__img_header" width="40">
           </a>
