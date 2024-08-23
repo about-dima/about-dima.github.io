@@ -201,17 +201,6 @@
                 console.error('Error generating ZIP file:', error);
             }
         }
-            let prevScrollpos = window.pageYOffset;
-            window.onscroll = function() {
-            let currentScrollPos = window.pageYOffset;
-            if (prevScrollpos > currentScrollPos) {
-                document.getElementById("navbar").style.top = "0";
-            } else {
-                document.getElementById("navbar").style.top = "-50px";
-            }
-            prevScrollpos = currentScrollPos;
-        }
-
         </script>
     
     <style>
@@ -235,7 +224,7 @@
     
        [data-tooltip]:hover::after {
         opacity: 1;
-        top: 2em;
+        top: 3em;
        }
     
        .dark-mode [data-tooltip]::after {
@@ -276,7 +265,7 @@
             align-items: center;
             text-align: left;
             border-bottom: 1px solid #00000023;
-            background-color: #e9e9e9b4;
+            background: #e9e9e9a8;;
             backdrop-filter: blur(3px);
             transition: 0.3s;
             position: fixed;
@@ -385,7 +374,22 @@
             transition: 0.3s;
             color: white;
         }
-    
+
+        .a_3:focus {
+            border:1px solid #aeaeae;
+            border-radius: 5px;
+            padding-top: auto;
+            padding-top: 20px;
+            transition: 0.4s;
+        }
+        
+        .a_4:focus {
+            border:1px solid #aeaeae;
+            border-radius: 5px;
+            padding-top: auto;
+            transition: 0.4s;
+        }
+
         a { 
             text-decoration: none;
             display: inline;
@@ -502,18 +506,18 @@
     </style>
 <body>
   <div class="container">
-     <div id="navbar" class="navbar">
-        <a href="">
-            <img src="img/name_icon.png" alt="logo" class="logo__img_header" width="100">
+     <div class="navbar">
+        <a class="a_3" href="">
+            <img src="img/icon.png" alt="logo" class="logo__img_header" width="40">
           </a>
           <div>
-            <a data-tooltip="RU/UA/EN" href="javascript:toggleLanguage()">
+            <a class="a_3" data-tooltip="RU/UA/EN" href="javascript:toggleLanguage()">
             <img src="img/language.png" alt="language" class="button_img2" width="25">
           </a>
-          <a data-tooltip="Light/dark mode" href="javascript:myFunction()">
+          <a class="a_3" data-tooltip="Light/dark mode" href="javascript:myFunction()">
             <img src="img/night-day.png" alt="light/dark mode" class="button_img2" width="25">
           </a>
-          <a id="lite-link" class="images, lite-link" data-tooltip="Lite version" href="lite.html">
+          <a id="lite-link" class="images, lite-link, a_3" data-tooltip="Lite version" href="lite.html">
             <img class="images" src="img/icon_lite.png" alt="Lite version" class="button_img2" width="25">
           </a>
           </div>
@@ -559,10 +563,10 @@
 </div>
     <footer class="page-footer">
     <p id="credits">Credits to:</p>
-    <a class="a_2" href="https://www.youtube.com/">YouTube</a>
-    <a class="a_2" href="https://habr.com">Habr</a>
-    <a class="a_2" href="https://stackoverflow.com/">Stack Overflow</a>
-    <a id="tc" class="a_2" href="https://t.me/htmlshitchat">Telegram chat</a>
+    <a class="a_2, a_4" href="https://www.youtube.com/">YouTube</a>
+    <a class="a_2, a_4" href="https://habr.com">Habr</a>
+    <a class="a_2, a_4" href="https://stackoverflow.com/">Stack Overflow</a>
+    <a id="tc" class="a_2, a_4" href="https://t.me/htmlshitchat">Telegram chat</a>
   </footer>
 </body>
 </html>
