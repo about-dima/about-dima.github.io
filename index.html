@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
     <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
-    <link rel="icon" href="img/name_icon.png" type="image/x-icon"  id="favicon">
+    <link rel="icon" href="img/icon.png" type="image/x-icon"  id="favicon">
 </html>
 <title id="fav">About me</title>
 <script src="jszip.min.js"></script>
@@ -494,12 +494,17 @@
             min-height: 100%;
             display: inline-block;
         }
+
+        .lite-link {
+            margin-right: 10px;
+        } 
+
     </style>
 <body>
   <div class="container">
      <div id="navbar" class="navbar">
         <a href="">
-            <img src="img/name_icon.png" alt="logo" class="logo__img_header" width="40">
+            <img src="img/name_icon.png" alt="logo" class="logo__img_header" width="100">
           </a>
           <div>
             <a data-tooltip="RU/UA/EN" href="javascript:toggleLanguage()">
@@ -508,7 +513,7 @@
           <a data-tooltip="Light/dark mode" href="javascript:myFunction()">
             <img src="img/night-day.png" alt="light/dark mode" class="button_img2" width="25">
           </a>
-          <a id="lite-link" class="images" data-tooltip="Lite version" href="lite.html">
+          <a id="lite-link" class="images, lite-link" data-tooltip="Lite version" href="lite.html">
             <img class="images" src="img/icon_lite.png" alt="Lite version" class="button_img2" width="25">
           </a>
           </div>
