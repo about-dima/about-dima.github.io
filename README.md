@@ -2,5 +2,6 @@
 My personal site
 
 Screenshots:
-![image](https://github.com/user-attachments/assets/16f8dc1d-3307-4efd-af29-4f0051797923) ![image](https://github.com/user-attachments/assets/e321adba-02af-41dd-8f63-d7ecfc80368a)
+![image](https://github.com/user-attachments/assets/0e2358fa-2912-4fd5-8606-b60a5b84fd39) ![image](https://github.com/user-attachments/assets/1dc38592-2ab3-4d23-966b-9d2dfc67b400)
+
 
