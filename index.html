@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <!DOCTYPE html>
@@ -10,8 +10,8 @@
     <link rel="icon" href="img/icon.png" type="image/x-icon"  id="favicon">
 </html>
 <title id="fav">About me</title>
-<script src="jszip.min.js"></script>
-<script src="FileSaver.min.js"></script>
+<script src="js/jszip.min.js"></script>
+<script src="js/FileSaver.min.js"></script>
 <head>
     <meta class="theme-color" name="theme-color" content="#1e1e1eae">
     <script>
@@ -375,16 +375,24 @@
             color: white;
         }
 
-        .a_3:focus {
-            border:1px solid #aeaeae;
+        .a_3:hover {
+            transition: 0.4s;
             border-radius: 5px;
+            background: #ffffffaf;
+            padding-top: auto;
+            padding-top: 20px;
+        }
+
+        .dark-mode .a_3:hover {
+            border-radius: 5px;
+            background-color: #4a4a4a;
             padding-top: auto;
             padding-top: 20px;
             transition: 0.4s;
         }
         
         .a_4:focus {
-            border:1px solid #aeaeae;
+            border:1px solid #aeaeaebb;
             border-radius: 5px;
             padding-top: auto;
             transition: 0.4s;
@@ -404,6 +412,24 @@
             text-align:center;
             padding: 15px;
             display: inline;
+        }
+
+        .a_5 {
+            margin-right: 10px;
+        }
+
+        .a_5:hover {
+            transition: 0.4s;
+            border-radius: 5px;
+            background: #ffffffaf;
+            padding-top: auto;
+            padding-top: 20px;
+        }
+
+        .dark-mode .a_5:hover {
+            transition: 0.4s;
+            border-radius: 5px;
+            background-color: #4a4a4a;
         }
     
         .button1 {
@@ -507,7 +533,7 @@
 <body>
   <div class="container">
      <div class="navbar">
-        <a class="a_3" href="">
+        <a href="">
             <img src="img/icon.png" alt="logo" class="logo__img_header" width="40">
           </a>
           <div>
@@ -517,7 +543,7 @@
           <a class="a_3" data-tooltip="Light/dark mode" href="javascript:myFunction()">
             <img src="img/night-day.png" alt="light/dark mode" class="button_img2" width="25">
           </a>
-          <a id="lite-link" class="images, lite-link, a_3" data-tooltip="Lite version" href="lite.html">
+          <a id="lite-link" class="images, lite-link, a_5" data-tooltip="Lite version" href="lite.html">
             <img class="images" src="img/icon_lite.png" alt="Lite version" class="button_img2" width="25">
           </a>
           </div>
