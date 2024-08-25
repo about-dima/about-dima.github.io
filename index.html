@@ -18,6 +18,32 @@
         function myFunction() {
             var element = document.body;
             element.classList.toggle("dark-mode");
+
+            var icon = document.getElementById("theme-icon");
+            if (element.classList.contains("dark-mode")) {
+                icon.src = "img/light-mode.png";
+                localStorage.setItem("theme", "dark");
+            } else {
+                icon.src = "img/night-mode.png";
+                localStorage.setItem("theme", "light");
+            }
+        }
+
+        function loadTheme() {
+            var theme = localStorage.getItem("theme");
+            var element = document.body;
+            var icon = document.getElementById("theme-icon");
+
+            if (theme === "dark") {
+                element.classList.add("dark-mode");
+                icon.src = "img/light-mode.png";
+            } else {
+                icon.src = "img/night-mode.png";
+            }
+        }
+
+        window.onload = loadTheme;
+
     
             var favicon = document.getElementById('favicon');
             var canvas = document.createElement('canvas');
@@ -37,7 +63,6 @@
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 favicon.href = canvas.toDataURL('image/png');
             };
-        }
     
         function notifyOnBirthday() {
             const today = new Date();
@@ -379,26 +404,21 @@
         }
 
         .a_3:hover {
-            transition: 0.4s;
             border-radius: 5px;
             background: #ffffffaf;
-            padding-top: auto;
             padding-top: 20px;
         }
 
         .dark-mode .a_3:hover {
             border-radius: 5px;
             background-color: #4a4a4a;
-            padding-top: auto;
             padding-top: 20px;
-            transition: 0.4s;
         }
         
         .a_4:focus {
             border:1px solid #aeaeaebb;
             border-radius: 5px;
             padding-top: auto;
-            transition: 0.4s;
         }
 
         a { 
@@ -422,7 +442,6 @@
         }
 
         .a_5:hover {
-            transition: 0.4s;
             border-radius: 5px;
             background: #ffffffaf;
             padding-top: auto;
@@ -430,7 +449,6 @@
         }
 
         .dark-mode .a_5:hover {
-            transition: 0.4s;
             border-radius: 5px;
             background-color: #4a4a4a;
         }
@@ -544,7 +562,7 @@
             <img src="img/language.png" alt="language" class="button_img2" width="25">
           </a>
           <a class="a_3" data-tooltip="Light/dark mode" href="javascript:myFunction()">
-            <img src="img/night-day.png" alt="light/dark mode" class="button_img2" width="25">
+            <img id="theme-icon" src="img/night-mode.png" alt="light/dark mode" class="button_img2" width="25">
           </a>
           <a id="lite-link" class="images, lite-link, a_5" data-tooltip="Lite version" href="lite.html">
             <img class="images" src="img/icon_lite.png" alt="Lite version" class="button_img2" width="25">
