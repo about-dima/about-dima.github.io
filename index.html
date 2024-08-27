@@ -89,6 +89,24 @@
         document.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
             });
+            function initializeLanguage() {
+    const storedLanguage = localStorage.getItem('language') || 'en';
+    currentLanguage = storedLanguage;
+
+
+        if (currentLanguage === 'ru') {
+            translateToRussian();
+        } else if (currentLanguage === 'ua') {
+            translateToUkrainian();
+        } else if (currentLanguage === 'tt') {
+            translateToTatar();
+        } else {
+            translateToEnglish();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeLanguage);
+
             function toggleLanguage() {
         if (currentLanguage === 'en') {
             translateToRussian();
@@ -96,12 +114,16 @@
         } else if (currentLanguage === 'ru') {
             translateToUkrainian();
             currentLanguage = 'ua';
+        } else if (currentLanguage === 'ua') {
+            translateToTatar();
+            currentLanguage = 'tt';
         } else {
             translateToEnglish();
             currentLanguage = 'en';
         }
+
+            localStorage.setItem('language', currentLanguage);
         }
-    
         function translateToRussian() {
             document.getElementById('about-me').innerText = 'Обо мне';
             document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
@@ -152,6 +174,24 @@
             document.getElementById('credits').innerText = 'Credits to:';
             document.getElementById('tc').innerText = 'Telegram chat';
         }
+
+        function translateToTatar() {
+            document.getElementById('about-me').innerText = 'Мин турында';
+            document.getElementById('intro').innerText = 'Сәлам, минем исемем Дима';
+            document.getElementById('pronouns').innerText = 'Алмашлыклар: ул/аның';
+            document.getElementById('hobbies').innerText = 'Хоббилар:';
+            document.getElementById('hobby1').innerText = '- HTML һәм CSS кулланып веб-сайтлар ясау';
+            document.getElementById('hobby2').innerText = '- Сурәт төшерү (мин бик яхшы түгел, ләкин тырышам)';
+            document.getElementById('links').innerText = 'Сылтамалар:';
+            document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1">Telegram каналы';
+            document.getElementById('ot').innerText = 'Бүтәннәр:';
+            document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6"> Сайтны йөкләү';
+            document.getElementById('fav').innerText = 'Мин турында';
+            document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Минем программа <sup>ЯҢА</sup>';
+            document.getElementById('credits').innerText = 'Рәхмәт:';
+            document.getElementById('tc').innerText = 'Telegram чат';
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             var liteLink = document.getElementById('lite-link');
     
@@ -559,7 +599,7 @@
             <img src="img/icon.png" alt="logo" class="logo__img_header" width="40">
           </a>
           <div>
-            <a class="a_3" data-tooltip="RU/UA/EN" href="javascript:toggleLanguage()">
+            <a class="a_3" data-tooltip="RU/UA/EN/TT" href="javascript:toggleLanguage()">
             <img src="img/language.png" alt="language" class="button_img2" width="25">
           </a>
           <a class="a_3" data-tooltip="Light/dark mode" href="javascript:myFunction()">
