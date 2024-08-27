@@ -90,40 +90,52 @@
                 event.preventDefault();
             });
             function initializeLanguage() {
-    const storedLanguage = localStorage.getItem('language') || 'en';
-    currentLanguage = storedLanguage;
+                const storedLanguage = localStorage.getItem('language') || 'en';
+            currentLanguage = storedLanguage;
 
-
-        if (currentLanguage === 'ru') {
-            translateToRussian();
-        } else if (currentLanguage === 'ua') {
-            translateToUkrainian();
-        } else if (currentLanguage === 'tt') {
-            translateToTatar();
-        } else {
-            translateToEnglish();
+            if (currentLanguage === 'ru') {
+                translateToRussian();
+                updateLanguageIcon('ukrainian.png');
+            } else if (currentLanguage === 'ua') {
+                translateToUkrainian();
+                updateLanguageIcon('tatar.png');
+            } else if (currentLanguage === 'tt') {
+                translateToTatar();
+                updateLanguageIcon('english.png');
+            } else {
+                translateToEnglish();
+                updateLanguageIcon('russian.png');
             }
         }
 
         document.addEventListener('DOMContentLoaded', initializeLanguage);
 
-            function toggleLanguage() {
-        if (currentLanguage === 'en') {
-            translateToRussian();
-            currentLanguage = 'ru';
-        } else if (currentLanguage === 'ru') {
-            translateToUkrainian();
-            currentLanguage = 'ua';
-        } else if (currentLanguage === 'ua') {
-            translateToTatar();
-            currentLanguage = 'tt';
-        } else {
-            translateToEnglish();
-            currentLanguage = 'en';
+        function toggleLanguage() {
+            if (currentLanguage === 'en') {
+                translateToRussian();
+                currentLanguage = 'ru';
+                updateLanguageIcon('ukrainian.png');
+            } else if (currentLanguage === 'ru') {
+                translateToUkrainian();
+                currentLanguage = 'ua';
+                updateLanguageIcon('tatar.png');
+            } else if (currentLanguage === 'ua') {
+                translateToTatar();
+                currentLanguage = 'tt';
+                updateLanguageIcon('english.png');
+            } else {
+                translateToEnglish();
+                currentLanguage = 'en';
+                updateLanguageIcon('russian.png');
+            }
+
+        localStorage.setItem('language', currentLanguage);
         }
 
-            localStorage.setItem('language', currentLanguage);
+            function updateLanguageIcon(iconName) {
+            document.getElementById('language-icon').src = `img/${iconName}`;
         }
+
         function translateToRussian() {
             document.getElementById('about-me').innerText = 'Обо мне';
             document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
@@ -599,9 +611,9 @@
             <img src="img/icon.png" alt="logo" class="logo__img_header" width="40">
           </a>
           <div>
-            <a class="a_3" data-tooltip="RU/UA/EN/TT" href="javascript:toggleLanguage()">
-            <img src="img/language.png" alt="language" class="button_img2" width="25">
-          </a>
+            <a class="a_3" data-tooltip="RU/UA/TT/EN" href="javascript:toggleLanguage()">
+                <img id="language-icon" src="img/russian.png" alt="language" class="button_img2" width="25">
+            </a>
           <a class="a_3" data-tooltip="Light/dark mode" href="javascript:myFunction()">
             <img id="theme-icon" src="img/night-mode.png" alt="light/dark mode" class="button_img2" width="25">
           </a>
