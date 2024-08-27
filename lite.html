@@ -43,75 +43,108 @@
             });
             let currentLanguage = 'en';
 
-    function toggleLanguage() {
+            function initializeLanguage() {
+    const storedLanguage = localStorage.getItem('language') || 'en';
+    currentLanguage = storedLanguage;
+
+
+        if (currentLanguage === 'ru') {
+            translateToRussian();
+        } else if (currentLanguage === 'ua') {
+            translateToUkrainian();
+        } else if (currentLanguage === 'tt') {
+            translateToTatar();
+        } else {
+            translateToEnglish();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeLanguage);
+
+            function toggleLanguage() {
         if (currentLanguage === 'en') {
             translateToRussian();
             currentLanguage = 'ru';
         } else if (currentLanguage === 'ru') {
             translateToUkrainian();
             currentLanguage = 'ua';
+        } else if (currentLanguage === 'ua') {
+            translateToTatar();
+            currentLanguage = 'tt';
         } else {
             translateToEnglish();
             currentLanguage = 'en';
         }
-    }
 
-    function translateToRussian() {
-        document.getElementById('about-me').innerText = 'Обо мне';
-        document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
-        document.getElementById('pronouns').innerText = 'Местоимения: он/его';
-        document.getElementById('hobbies').innerText = 'Хобби:';
-        document.getElementById('hobby1').innerText = '- Создание веб-сайтов с использованием HTML и CSS';
-        document.getElementById('hobby2').innerText = '- Рисование (я не очень хорошо, но стараюсь)';
-        document.getElementById('links').innerText = 'Ссылки:';
-        document.getElementById('tg').innerHTML = 'Telegram канал';
-        document.getElementById('ot').innerText = 'Другое:';
-        document.getElementById('ds').innerHTML = 'Скачать сайт';
-        document.getElementById('dl').innerHTML = 'Светлая/тёмная тема';
-        document.getElementById('fav').innerText = 'Обо мне: Простая версия';
-        document.getElementById('normal').innerHTML = 'Нормальная версия';
-        document.getElementById('mp').innerHTML = 'Моя программа <sup>NEW</sup>';
-        document.getElementById('credits').innerText = 'Благодарность:';
-        document.getElementById('tc').innerText = 'Telegram чат';
-    }
+            localStorage.setItem('language', currentLanguage);
+        }
+        function translateToRussian() {
+            document.getElementById('about-me').innerText = 'Обо мне';
+            document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
+            document.getElementById('pronouns').innerText = 'Местоимения: он/его';
+            document.getElementById('hobbies').innerText = 'Хобби:';
+            document.getElementById('hobby1').innerText = '- Создание веб-сайтов с использованием HTML и CSS';
+            document.getElementById('hobby2').innerText = '- Рисование (я не очень хорошо, но стараюсь)';
+            document.getElementById('links').innerText = 'Ссылки:';
+            document.getElementById('tg').innerHTML = 'Telegram канал';
+            document.getElementById('ot').innerText = 'Другое:';
+            document.getElementById('ds').innerHTML = 'Скачать сайт';
+            document.getElementById('fav').innerText = 'Обо мне: Простая версия';
+            document.getElementById('mp').innerHTML = 'Моя программа <sup>NEW</sup>';
+            document.getElementById('credits').innerText = 'Благодарность:';
+            document.getElementById('tc').innerText = 'Telegram чат';
+        }
+    
+        function translateToUkrainian() {
+            document.getElementById('about-me').innerText = 'Про мене';
+            document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
+            document.getElementById('pronouns').innerText = 'Займенники: він/його';
+            document.getElementById('hobbies').innerText = 'Хобі:';
+            document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
+            document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
+            document.getElementById('links').innerText = 'Посилання:';
+            document.getElementById('tg').innerHTML = 'Telegram канал';
+            document.getElementById('ot').innerText = 'Інше:';
+            document.getElementById('ds').innerHTML = 'Завантажити сайт';
+            document.getElementById('fav').innerText = 'Про мене: Проста версія';
+            document.getElementById('mp').innerHTML = 'Моя програма <sup>NEW</sup>';
+            document.getElementById('credits').innerText = 'Подяка:';
+            document.getElementById('tc').innerText = 'Telegram чат';
+        }
+    
+        function translateToEnglish() {
+            document.getElementById('about-me').innerText = 'About me';
+            document.getElementById('intro').innerText = 'Hi my name is Dima';
+            document.getElementById('pronouns').innerText = 'Pronouns: he/him';
+            document.getElementById('hobbies').innerText = 'Hobbies:';
+            document.getElementById('hobby1').innerText = '- Create websites using HTML and CSS';
+            document.getElementById('hobby2').innerText = '- Drawing (I’m not doing well, but I’m trying)';
+            document.getElementById('links').innerText = 'Links:';
+            document.getElementById('tg').innerHTML = 'Telegram channel';
+            document.getElementById('ot').innerText = 'Other:';
+            document.getElementById('ds').innerHTML = 'Download site';
+            document.getElementById('fav').innerText = 'About me: Lite version';
+            document.getElementById('mp').innerHTML = 'My program <sup>NEW</sup>';
+            document.getElementById('credits').innerText = 'Credits to:';
+            document.getElementById('tc').innerText = 'Telegram chat';
+        }
 
-    function translateToUkrainian() {
-        document.getElementById('about-me').innerText = 'Про мене';
-        document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
-        document.getElementById('pronouns').innerText = 'Займенники: він/його';
-        document.getElementById('hobbies').innerText = 'Хобі:';
-        document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
-        document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
-        document.getElementById('links').innerText = 'Посилання:';
-        document.getElementById('tg').innerHTML = 'Telegram канал';
-        document.getElementById('ot').innerText = 'Інше:';
-        document.getElementById('ds').innerHTML = 'Завантажити сайт';
-        document.getElementById('dl').innerHTML = 'Світла/темна тема';
-        document.getElementById('fav').innerText = 'Про мене: Проста версія';
-        document.getElementById('normal').innerHTML = 'Нормальна версія';
-        document.getElementById('mp').innerHTML = 'Моя програма <sup>NEW</sup>';
-        document.getElementById('credits').innerText = 'Подяка:';
-        document.getElementById('tc').innerText = 'Telegram чат';
-    }
-
-    function translateToEnglish() {
-        document.getElementById('about-me').innerText = 'About me';
-        document.getElementById('intro').innerText = 'Hi my name is Dima';
-        document.getElementById('pronouns').innerText = 'Pronouns: he/him';
-        document.getElementById('hobbies').innerText = 'Hobbies:';
-        document.getElementById('hobby1').innerText = '- Create websites using HTML and CSS';
-        document.getElementById('hobby2').innerText = '- Drawing (I’m not doing well, but I’m trying)';
-        document.getElementById('links').innerText = 'Links:';
-        document.getElementById('tg').innerHTML = 'Telegram channel';
-        document.getElementById('ot').innerText = 'Other:';
-        document.getElementById('ds').innerHTML = 'Download site';
-        document.getElementById('dl').innerHTML = 'Light/dark mode';
-        document.getElementById('fav').innerText = 'About me: Lite version';
-        document.getElementById('normal').innerHTML = 'Normal version';
-        document.getElementById('mp').innerHTML = 'My program <sup>NEW</sup>';
-        document.getElementById('credits').innerText = 'Credits to:';
-        document.getElementById('tc').innerText = 'Telegram chat';
-    }
+        function translateToTatar() {
+            document.getElementById('about-me').innerText = 'Мин турында';
+            document.getElementById('intro').innerText = 'Сәлам, минем исемем Дима';
+            document.getElementById('pronouns').innerText = 'Алмашлыклар: ул/аның';
+            document.getElementById('hobbies').innerText = 'Хоббилар:';
+            document.getElementById('hobby1').innerText = '- HTML һәм CSS кулланып веб-сайтлар ясау';
+            document.getElementById('hobby2').innerText = '- Сурәт төшерү (мин бик яхшы түгел, ләкин тырышам)';
+            document.getElementById('links').innerText = 'Сылтамалар:';
+            document.getElementById('tg').innerHTML = 'Telegram каналы';
+            document.getElementById('ot').innerText = 'Бүтәннәр:';
+            document.getElementById('ds').innerHTML = 'Сайтны йөкләү';
+            document.getElementById('fav').innerText = 'Мин турында: Гади версия';
+            document.getElementById('mp').innerHTML = 'Минем программа <sup>ЯҢА</sup>';
+            document.getElementById('credits').innerText = 'Рәхмәт:';
+            document.getElementById('tc').innerText = 'Telegram чат';
+        }
 
 
     async function downloadSite() {
@@ -129,7 +162,8 @@
             'img/reddit.png',
             'img/icon_lite.png',
             'img/icon.png',
-            'img/night-day.png',
+            'img/night-mode.png',
+            'img/light-mode.png',
             'img/telegram.png',
             'img/twitter.png',
             'img/youtube.png',
