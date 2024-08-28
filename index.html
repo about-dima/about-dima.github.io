@@ -122,6 +122,10 @@
             } else if (currentLanguage === 'ua') {
                 translateToTatar();
                 currentLanguage = 'tt';
+                updateLanguageIcon('arabic.png');
+            } else if (currentLanguage === 'tt') {
+                translateToArabic();
+                currentLanguage = 'ar';
                 updateLanguageIcon('english.png');
             } else {
                 translateToEnglish();
@@ -138,6 +142,10 @@
 
         function translateToRussian() {
             document.getElementById('about-me').innerText = 'Обо мне';
+            const a3Elements = document.querySelectorAll('.a_3');
+            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
+            a3Elements[1].setAttribute('data-tooltip', 'Светлый/тёмный режим');
+            document.querySelector('.a_5').setAttribute('data-tooltip', 'Простая версия')
             document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
             document.getElementById('pronouns').innerText = 'Местоимения: он/его';
             document.getElementById('hobbies').innerText = 'Хобби:';
@@ -155,6 +163,10 @@
     
         function translateToUkrainian() {
             document.getElementById('about-me').innerText = 'Про мене';
+            const a3Elements = document.querySelectorAll('.a_3');
+            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
+            a3Elements[1].setAttribute('data-tooltip', 'Світлий/темний режим');
+            document.querySelector('.a_5').setAttribute('data-tooltip', 'Проста версія');
             document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
             document.getElementById('pronouns').innerText = 'Займенники: він/його';
             document.getElementById('hobbies').innerText = 'Хобі:';
@@ -172,6 +184,10 @@
     
         function translateToEnglish() {
             document.getElementById('about-me').innerText = 'About me';
+            document.querySelector('.a_5').setAttribute('data-tooltip', 'Lite version');
+            const a3Elements = document.querySelectorAll('.a_3');
+            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
+            a3Elements[1].setAttribute('data-tooltip', 'Light/dark mode');
             document.getElementById('intro').innerText = 'Hi my name is Dima';
             document.getElementById('pronouns').innerText = 'Pronouns: he/him';
             document.getElementById('hobbies').innerText = 'Hobbies:';
@@ -189,6 +205,10 @@
 
         function translateToTatar() {
             document.getElementById('about-me').innerText = 'Мин турында';
+            document.querySelector('.a_5').setAttribute('data-tooltip', 'Гади версия');
+            const a3Elements = document.querySelectorAll('.a_3');
+            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
+            a3Elements[1].setAttribute('data-tooltip', 'Якты/караңгы режим');
             document.getElementById('intro').innerText = 'Сәлам, минем исемем Дима';
             document.getElementById('pronouns').innerText = 'Алмашлыклар: ул/аның';
             document.getElementById('hobbies').innerText = 'Хоббилар:';
@@ -203,6 +223,28 @@
             document.getElementById('credits').innerText = 'Рәхмәт:';
             document.getElementById('tc').innerText = 'Telegram чат';
         }
+
+        function translateToArabic() {
+            document.getElementById('about-me').innerText = 'ْعَنِّي';
+            document.querySelector('.a_5').setAttribute('data-tooltip', 'نسخة بسيطة');
+            const a3Elements = document.querySelectorAll('.a_3');
+            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
+            a3Elements[1].setAttribute('data-tooltip', 'وضع الضوء/الظلام');
+            document.getElementById('intro').innerText = 'مرحبا اسمي ديما';
+            document.getElementById('pronouns').innerText = 'الضمائر : هو / هو';
+            document.getElementById('hobbies').innerText = 'هوايات:';
+            document.getElementById('hobby1').innerText = '- إنشاء مواقع الويب باستخدام HTML وCSS';
+            document.getElementById('hobby2').innerText = '- الرسم (لست جيد ولكني أحاول)';
+            document.getElementById('links').innerText = 'الروابط:';
+            document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1"> قناة التليجرام';
+            document.getElementById('ot').innerText = 'آخر:';
+            document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6">تحميل الموقع ';
+            document.getElementById('fav').innerText = 'ْعَنِّي';
+            document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">برنامجي<sup>جديد</sup>';
+            document.getElementById('credits').innerText = 'الاعتمادات ل:';
+            document.getElementById('tc').innerText = 'دردشة برقية';
+        }
+
 
         document.addEventListener('DOMContentLoaded', function () {
             var liteLink = document.getElementById('lite-link');
@@ -245,6 +287,7 @@
             'img/mail.png',
             'img/russian.png',
             'img/ukrainian.png',
+            'img/arabic.png',
             'img/english.png',
             'img/tatar.png',
         ];
@@ -349,8 +392,7 @@
             align-items: center;
             text-align: left;
             border-bottom: 1px solid #00000023;
-            background: #e9e9e9a8;;
-            backdrop-filter: blur(3px);
+            background: #ffffff;;
             transition: 0.3s;
             position: fixed;
             top: 0;
@@ -365,8 +407,7 @@
         }
     
         .dark-mode .navbar {
-            background-color: #1e1e1eae;
-            backdrop-filter: blur(3px);
+            background-color: #1b1b1b;
             border-bottom: 1px solid #646464;
         }
     
@@ -376,7 +417,7 @@
         }
     
         .dark-mode button {
-            background-color: #333333;
+            background-color: #1b1b1b;
             border: 1px solid #646464;
         }
     
@@ -423,7 +464,7 @@
         }
     
         body {
-            background-color: #e9e9e9;
+            background-color: white;
             transition: 0.3s;
             color: rgb(47, 47, 47);
         }
@@ -454,7 +495,7 @@
         }
     
         .dark-mode {
-            background-color: #333333;
+            background-color: #1b1b1b;
             transition: 0.3s;
             color: white;
         }
@@ -578,7 +619,7 @@
             color: rgb(0, 0, 0);
             border-top: 1px solid #00000023;
             border-bottom: 1px solid #00000023;
-            background-color: #d4d4d4b4;
+            background-color: white;
             backdrop-filter: blur(3px);
             transition: 0.3s;
             flex-grow: 0;
@@ -587,7 +628,7 @@
 
         .dark-mode .page-footer {
             color: white;
-            background-color: #1e1e1eae;
+            background-color: #1b1b1b;;
             backdrop-filter: blur(3px);
             border-top: 1px solid #646464;
             border-bottom: 1px solid #646464;
@@ -614,7 +655,7 @@
             <img src="img/icon.png" alt="logo" class="logo__img_header" width="40">
           </a>
           <div>
-            <a class="a_3" data-tooltip="RU/UA/TT/EN" href="javascript:toggleLanguage()">
+            <a class="a_3" data-tooltip="RU/UA/TT/AR/EN" href="javascript:toggleLanguage()">
                 <img id="language-icon" src="img/russian.png" alt="language" class="button_img2" width="25">
             </a>
           <a class="a_3" data-tooltip="Light/dark mode" href="javascript:myFunction()">
