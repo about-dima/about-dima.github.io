@@ -10,7 +10,7 @@
 <div>
 <body>
     <button id="dl" onclick="myFunction()">Light/dark mode</button>
-    <button class="button2" onclick="toggleLanguage()">RU/UA/EN</button>
+    <button class="button2" onclick="toggleLanguage()">RU/UA/TT/AR/EN</button>
     <a href="index.html">
         <button id="normal">Normal version</button>
     </a>
@@ -71,6 +71,9 @@
         } else if (currentLanguage === 'ua') {
             translateToTatar();
             currentLanguage = 'tt';
+        } else if (currentLanguage === 'tt') {
+            translateToArabic();
+            currentLanguage = 'en';
         } else {
             translateToEnglish();
             currentLanguage = 'en';
@@ -93,6 +96,8 @@
             document.getElementById('mp').innerHTML = 'Моя программа <sup>NEW</sup>';
             document.getElementById('credits').innerText = 'Благодарность:';
             document.getElementById('tc').innerText = 'Telegram чат';
+            document.getElementById('normal').innerText = 'Нормальная версия';
+            document.getElementById('dl').innerText = 'Светлый/тёмный режим';
         }
     
         function translateToUkrainian() {
@@ -110,6 +115,8 @@
             document.getElementById('mp').innerHTML = 'Моя програма <sup>NEW</sup>';
             document.getElementById('credits').innerText = 'Подяка:';
             document.getElementById('tc').innerText = 'Telegram чат';
+            document.getElementById('normal').innerText = 'Нормальна версія';
+            document.getElementById('dl').innerText = 'Світлий/темний режим';
         }
     
         function translateToEnglish() {
@@ -127,6 +134,8 @@
             document.getElementById('mp').innerHTML = 'My program <sup>NEW</sup>';
             document.getElementById('credits').innerText = 'Credits to:';
             document.getElementById('tc').innerText = 'Telegram chat';
+            document.getElementById('normal').innerText = 'Normal version';
+            document.getElementById('dl').innerText = 'Light/Dark mode';
         }
 
         function translateToTatar() {
@@ -144,8 +153,28 @@
             document.getElementById('mp').innerHTML = 'Минем программа <sup>ЯҢА</sup>';
             document.getElementById('credits').innerText = 'Рәхмәт:';
             document.getElementById('tc').innerText = 'Telegram чат';
+            document.getElementById('normal').innerText = 'Нормаль версия';
+            document.getElementById('dl').innerText = 'Якты/караңгы режим';
         }
 
+        function translateToArabic() {
+            document.getElementById('about-me').innerText = 'ْعَنِّي';
+            document.getElementById('intro').innerText = 'مرحبا اسمي ديما';
+            document.getElementById('pronouns').innerText = 'الضمائر : هو / هو';
+            document.getElementById('hobbies').innerText = 'هوايات:';
+            document.getElementById('hobby1').innerText = '- إنشاء مواقع الويب باستخدام HTML وCSS';
+            document.getElementById('hobby2').innerText = '- الرسم (لست جيد ولكني أحاول)';
+            document.getElementById('links').innerText = 'الروابط:';
+            document.getElementById('tg').innerHTML = 'قناة التليجرام';
+            document.getElementById('ot').innerText = 'آخر:';
+            document.getElementById('ds').innerHTML = 'تحميل الموقع ';
+            document.getElementById('fav').innerText = 'ْعني: نسخة بسيطة';
+            document.getElementById('mp').innerHTML = 'برنامجي<sup>جديد</sup>';
+            document.getElementById('credits').innerText = 'الاعتمادات ل:';
+            document.getElementById('tc').innerText = 'دردشة برقية';
+            document.getElementById('normal').innerText = 'النسخة العادية';
+            document.getElementById('dl').innerText = 'وضع الضوء/الظلام';
+        }
 
     async function downloadSite() {
             const zip = new JSZip();
@@ -173,6 +202,7 @@
             'img/russian.png',
             'img/ukrainian.png',
             'img/english.png',
+            'img/arabic.png',
             'img/tatar.png',
         ];
 
