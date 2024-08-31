@@ -142,9 +142,6 @@
 
         function translateToRussian() {
             document.getElementById('about-me').innerText = 'Обо мне';
-            const a3Elements = document.querySelectorAll('.a_3');
-            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
-            a3Elements[1].setAttribute('data-tooltip', 'Светлый/тёмный режим');
             document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
             document.getElementById('pronouns').innerText = 'Местоимения: он/его';
             document.getElementById('hobbies').innerText = 'Хобби:';
@@ -162,9 +159,6 @@
     
         function translateToUkrainian() {
             document.getElementById('about-me').innerText = 'Про мене';
-            const a3Elements = document.querySelectorAll('.a_3');
-            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
-            a3Elements[1].setAttribute('data-tooltip', 'Світлий/темний режим');
             document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
             document.getElementById('pronouns').innerText = 'Займенники: він/його';
             document.getElementById('hobbies').innerText = 'Хобі:';
@@ -182,9 +176,6 @@
     
         function translateToEnglish() {
             document.getElementById('about-me').innerText = 'About me';
-            const a3Elements = document.querySelectorAll('.a_3');
-            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
-            a3Elements[1].setAttribute('data-tooltip', 'Light/dark mode');
             document.getElementById('intro').innerText = 'Hi my name is Dima';
             document.getElementById('pronouns').innerText = 'Pronouns: he/him';
             document.getElementById('hobbies').innerText = 'Hobbies:';
@@ -202,9 +193,6 @@
 
         function translateToTatar() {
             document.getElementById('about-me').innerText = 'Мин турында';
-            const a3Elements = document.querySelectorAll('.a_3');
-            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
-            a3Elements[1].setAttribute('data-tooltip', 'Якты/караңгы режим');
             document.getElementById('intro').innerText = 'Сәлам, минем исемем Дима';
             document.getElementById('pronouns').innerText = 'Алмашлыклар: ул/аның';
             document.getElementById('hobbies').innerText = 'Хоббилар:';
@@ -221,10 +209,7 @@
         }
 
         function translateToArabic() {
-            document.getElementById('about-me').innerText = 'ْعَنِّي';
-            const a3Elements = document.querySelectorAll('.a_3');
-            a3Elements[0].setAttribute('data-tooltip', 'RU/UA/TT/AR/EN');
-            a3Elements[1].setAttribute('data-tooltip', 'وضع الضوء/الظلام');
+            document.getElementById('about-me').innerText = 'ْعَنِّي';;
             document.getElementById('intro').innerText = 'مرحبا اسمي ديما';
             document.getElementById('pronouns').innerText = 'الضمائر : هو / هو';
             document.getElementById('hobbies').innerText = 'هوايات:';
@@ -239,7 +224,24 @@
             document.getElementById('credits').innerText = 'الاعتمادات ل:';
             document.getElementById('tc').innerText = 'دردشة برقية';
         }
-      
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var liteLink = document.getElementById('lite-link');
+    
+            liteLink.addEventListener('click', function (event) {
+                event.preventDefault();
+    
+                var body = document.body;
+    
+                body.classList.add('fade-out');
+    
+                setTimeout(function () {
+                    window.location.href = liteLink.href;
+                }, 500);
+            });
+        });
+
         async function downloadSite() {
             const zip = new JSZip();
 
@@ -515,7 +517,7 @@
         .a_5 {
             margin-right: 10px;
         }
-      
+
         .button1 {
             margin-right: 15px;
             margin-bottom: -3px;
@@ -570,10 +572,6 @@
             padding-top: 70px;
         }
     
-        .fade-out {
-            animation: fadeOut 0.5s forwards;
-        }
-      
         .page-footer {
             padding-bottom: 20px;
             margin-top: 40px;
