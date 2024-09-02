@@ -1,70 +1,77 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
+  <script src="js/jszip.min.js"></script>
+  <script src="js/FileSaver.min.js"></script>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="img/icon.png" type="image/x-icon"  id="favicon">
+  <title>About me</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<!DOCTYPE html>
-<html>
-    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
-    <link rel="icon" href="img/icon.png" type="image/x-icon"  id="favicon">
-</html>
-<title id="fav">About me</title>
-<script src="js/jszip.min.js"></script>
-<script src="js/FileSaver.min.js"></script>
-<head>
-    <meta class="theme-color" name="theme-color" content="#1e1e1eae">
-    <script>
-        function myFunction() {
-            var element = document.body;
-            element.classList.toggle("dark-mode");
+  <nav>
+    <ul class="sidebar">
+      <li class="dontcopy" onclick=hideSidebar()><a><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
+      <li class="dontcopy"><a href="javascript:myFunction()"><img id="theme-icon" src="img/night-mode.png" width="25"><span id="theme-text">Night mode</span></a></li>
+      <li class="dontcopy"><a href="javascript:highlightAnchor()"><img src="img/user.png" width="25">About me</a></li>
+      <li class="dontcopy"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
+      <li class="dontcopy"><a href="#"><img src="img/link.png" width="25">Links</a></li>
+      <li class="dontcopy"><a href="https://github.com/DimaDomaratckiy2022/sleep"><img src="img/python.png" width="25">My program</a></li>
 
-            var icon = document.getElementById("theme-icon");
-            if (element.classList.contains("dark-mode")) {
-                icon.src = "img/light-mode.png";
-                localStorage.setItem("theme", "dark");
-            } else {
-                icon.src = "img/night-mode.png";
-                localStorage.setItem("theme", "light");
-            }
-        }
-
-        function loadTheme() {
-            var theme = localStorage.getItem("theme");
-            var element = document.body;
-            var icon = document.getElementById("theme-icon");
-
-            if (theme === "dark") {
-                element.classList.add("dark-mode");
-                icon.src = "img/light-mode.png";
-            } else {
-                icon.src = "img/night-mode.png";
-            }
-        }
-
-        window.onload = loadTheme;
-
+    </ul>
+    <ul>
+      <li><a href=""> <img src="img/icon.png" alt="logo" width="40">Dima ;)</a></li>
+      <li class="hideOnMobile"><a href="javascript:myFunction()"><img id="theme-icon" src="img/night-mode.png" width="25"><span id="theme-text">Night mode</span></a></li>
+      <li class="hideOnMobile"><a href="javascript:highlightAnchor()"><img src="img/user.png" width="25">About me</a></li>
+      <li class="hideOnMobile"><a href="javascript:highlightAnchor()"><img src="img/link.png" width="25">Links</a></li>
+      <li class="hideOnMobile"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
+      <li class="hideOnMobile"><a href="https://github.com/DimaDomaratckiy2022/sleep"><img src="img/python.png" width="25">My program</a></li>
+      <li class="menu-button" onclick=showSidebar()><a><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
+    </ul>
+  </nav>
+  <h1 id="about" class="top1">About me</h1>
+  <p>Hi my name is Dima</p>
+  <p>Pronouns: he/him</p>
+  <h1>Hobbies:</h1>
+  <p>- Create websites using HTML, CSS and JS</p>
+  <p>- Drawing (I’m not doing well, but I’m trying)</p>
+  <h1>Links:</h1>
+    <a href="https://www.reddit.com/user/Dima_WTF/">
+        <button><img src="img/reddit.png"  height="20" class="img1">Reddit</button>
+    </a>
+    <a href="https://www.youtube.com/@dzksosl3928">
+        <button><img src="img/youtube.png"  height="20" class="img1">YouTube</button>
+    </a>
+    <a href="https://github.com/DimaDomaratckiy2022">
+        <button><img src="img/github.png"  height="20" class="img1">Github</button>
+    </a>
+    <a href="https://x.com/Dom2010Dim">
+        <button><img src="img/twitter.png"  height="20" class="img1">Twitter</button>
+    </a>
+    <a href="https://t.me/dima_and_point1">
+        <button><img src="img/telegram.png" height="20" class="img1">Telegram channel</button>
+    </a>
+    <a href="mailto:dima849301@keemail.me">
+      <button><img src="img/mail.png"  height="20" class="img1">E-mail</button>
+    </a>
+    <p class="p1">Time in my country</p>
+    <div class="clock" id="clock"></div>
+  <script>
+function highlightAnchor() {
+    window.location.hash = 'about';
     
-            var favicon = document.getElementById('favicon');
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext('2d');
-            var img = new Image();
-            img.src = favicon.href;
+    var target = document.getElementById('about');
+    target.style.backgroundColor = 'grey';
+    target.classList.add('highlighted');
     
-            img.onload = function() {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.beginPath();
-                ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, 0, Math.PI * 2);
-                ctx.clip();
-                ctx.drawImage(img, 0, 0);
-                ctx.globalCompositeOperation = 'difference';
-                ctx.fillStyle = 'white';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                favicon.href = canvas.toDataURL('image/png');
-            };
-    
-        function notifyOnBirthday() {
+    setTimeout(function() {
+        target.style.backgroundColor = 'transparent';
+        target.classList.remove('highlighted');
+    }, 2000);
+}
+          function notifyOnBirthday() {
             const today = new Date();
             const birthday = new Date(today.getFullYear(), 7, 4);
             if (today.getMonth() === 7 && today.getDate() === 4) {
@@ -81,181 +88,19 @@
         }
     
         notifyOnBirthday();
-        document.addEventListener('contextmenu', function(event) {
-                event.preventDefault();
-            });
-            let currentLanguage = 'en';
-    
-        document.addEventListener('contextmenu', function(event) {
-                event.preventDefault();
-            });
-            function initializeLanguage() {
-                const storedLanguage = localStorage.getItem('language') || 'en';
-            currentLanguage = storedLanguage;
-
-            if (currentLanguage === 'ru') {
-                translateToRussian();
-                updateLanguageIcon('ukrainian.png');
-            } else if (currentLanguage === 'ua') {
-                translateToUkrainian();
-                updateLanguageIcon('tatar.png');
-            } else if (currentLanguage === 'tt') {
-                translateToTatar();
-                updateLanguageIcon('english.png');
-            } else {
-                translateToEnglish();
-                updateLanguageIcon('russian.png');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', initializeLanguage);
-
-        function toggleLanguage() {
-            if (currentLanguage === 'en') {
-                translateToRussian();
-                currentLanguage = 'ru';
-                updateLanguageIcon('ukrainian.png');
-            } else if (currentLanguage === 'ru') {
-                translateToUkrainian();
-                currentLanguage = 'ua';
-                updateLanguageIcon('tatar.png');
-            } else if (currentLanguage === 'ua') {
-                translateToTatar();
-                currentLanguage = 'tt';
-                updateLanguageIcon('arabic.png');
-            } else if (currentLanguage === 'tt') {
-                translateToArabic();
-                currentLanguage = 'ar';
-                updateLanguageIcon('english.png');
-            } else {
-                translateToEnglish();
-                currentLanguage = 'en';
-                updateLanguageIcon('russian.png');
-            }
-
-        localStorage.setItem('language', currentLanguage);
-        }
-
-            function updateLanguageIcon(iconName) {
-            document.getElementById('language-icon').src = `img/${iconName}`;
-        }
-
-        function translateToRussian() {
-            document.getElementById('about-me').innerText = 'Обо мне';
-            document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
-            document.getElementById('pronouns').innerText = 'Местоимения: он/его';
-            document.getElementById('hobbies').innerText = 'Хобби:';
-            document.getElementById('hobby1').innerText = '- Создание веб-сайтов с использованием HTML и CSS';
-            document.getElementById('hobby2').innerText = '- Рисование (я не очень хорошо, но стараюсь)';
-            document.getElementById('links').innerText = 'Ссылки:';
-            document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1">Telegram канал';
-            document.getElementById('ot').innerText = 'Другое:';
-            document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6"> Скачать сайт';
-            document.getElementById('fav').innerText = 'Обо мне';
-            document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Моя программа <sup>NEW</sup>';
-            document.getElementById('credits').innerText = 'Благодарность:';
-            document.getElementById('tc').innerText = 'Telegram чат';
-        }
-    
-        function translateToUkrainian() {
-            document.getElementById('about-me').innerText = 'Про мене';
-            document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
-            document.getElementById('pronouns').innerText = 'Займенники: він/його';
-            document.getElementById('hobbies').innerText = 'Хобі:';
-            document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
-            document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
-            document.getElementById('links').innerText = 'Посилання:';
-            document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1">Telegram канал';
-            document.getElementById('ot').innerText = 'Інше:';
-            document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6">Завантажити сайт';
-            document.getElementById('fav').innerText = 'Про мене';
-            document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Моя програма <sup>NEW</sup>';
-            document.getElementById('credits').innerText = 'Подяка:';
-            document.getElementById('tc').innerText = 'Telegram чат';
-        }
-    
-        function translateToEnglish() {
-            document.getElementById('about-me').innerText = 'About me';
-            document.getElementById('intro').innerText = 'Hi my name is Dima';
-            document.getElementById('pronouns').innerText = 'Pronouns: he/him';
-            document.getElementById('hobbies').innerText = 'Hobbies:';
-            document.getElementById('hobby1').innerText = '- Create websites using HTML and CSS';
-            document.getElementById('hobby2').innerText = '- Drawing (I’m not doing well, but I’m trying)';
-            document.getElementById('links').innerText = 'Links:';
-            document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1"> Telegram channel';
-            document.getElementById('ot').innerText = 'Other:';
-            document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6">Download site';
-            document.getElementById('fav').innerText = 'About me';
-            document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">My program <sup>NEW</sup>';
-            document.getElementById('credits').innerText = 'Credits to:';
-            document.getElementById('tc').innerText = 'Telegram chat';
-        }
-
-        function translateToTatar() {
-            document.getElementById('about-me').innerText = 'Мин турында';
-            document.getElementById('intro').innerText = 'Сәлам, минем исемем Дима';
-            document.getElementById('pronouns').innerText = 'Алмашлыклар: ул/аның';
-            document.getElementById('hobbies').innerText = 'Хоббилар:';
-            document.getElementById('hobby1').innerText = '- HTML һәм CSS кулланып веб-сайтлар ясау';
-            document.getElementById('hobby2').innerText = '- Сурәт төшерү (мин бик яхшы түгел, ләкин тырышам)';
-            document.getElementById('links').innerText = 'Сылтамалар:';
-            document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1">Telegram каналы';
-            document.getElementById('ot').innerText = 'Бүтәннәр:';
-            document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6"> Сайтны йөкләү';
-            document.getElementById('fav').innerText = 'Мин турында';
-            document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Минем программа <sup>ЯҢА</sup>';
-            document.getElementById('credits').innerText = 'Рәхмәт:';
-            document.getElementById('tc').innerText = 'Telegram чат';
-        }
-
-        function translateToArabic() {
-            document.getElementById('about-me').innerText = 'ْعَنِّي';;
-            document.getElementById('intro').innerText = 'مرحبا اسمي ديما';
-            document.getElementById('pronouns').innerText = 'الضمائر : هو / هو';
-            document.getElementById('hobbies').innerText = 'هوايات:';
-            document.getElementById('hobby1').innerText = '- إنشاء مواقع الويب باستخدام HTML وCSS';
-            document.getElementById('hobby2').innerText = '- الرسم (لست جيد ولكني أحاول)';
-            document.getElementById('links').innerText = 'الروابط:';
-            document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1"> قناة التليجرام';
-            document.getElementById('ot').innerText = 'آخر:';
-            document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6">تحميل الموقع ';
-            document.getElementById('fav').innerText = 'ْعَنِّي';
-            document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">برنامجي<sup>جديد</sup>';
-            document.getElementById('credits').innerText = 'الاعتمادات ل:';
-            document.getElementById('tc').innerText = 'دردشة برقية';
-        }
-
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var liteLink = document.getElementById('lite-link');
-    
-            liteLink.addEventListener('click', function (event) {
-                event.preventDefault();
-    
-                var body = document.body;
-    
-                body.classList.add('fade-out');
-    
-                setTimeout(function () {
-                    window.location.href = liteLink.href;
-                }, 500);
-            });
-        });
 
         async function downloadSite() {
             const zip = new JSZip();
 
         const urls = [
             'index.html',
-            'lite.html',
         ];
 
         const photoUrls = [
             'img/github.png',
-            'img/name_icon_lite.png',
+            'img/warning.png',
             'img/download.png',
             'img/reddit.png',
-            'img/icon_lite.png',
             'img/icon.png',
             'img/night-mode.png',
             'img/light-mode.png',
@@ -263,13 +108,7 @@
             'img/twitter.png',
             'img/youtube.png',
             'img/python.png',
-            'img/light-mode.png',
             'img/mail.png',
-            'img/russian.png',
-            'img/ukrainian.png',
-            'img/arabic.png',
-            'img/english.png',
-            'img/tatar.png',
         ];
 
         const jsUrls = [
@@ -308,362 +147,309 @@
         }
     }
 
-        </script>
-    
-    <style>
-        [data-tooltip] {
-        position: relative; 
-       }
-    
-       [data-tooltip]::after {
-        content: attr(data-tooltip);
-        position: absolute;
-        margin-top: 5px;
-        border-radius: 5px;
-        left: 0; top: 0;
-        background: #e9e9e9;
-        color: #333333;
-        border:1px solid #333333;
-        pointer-events: none;
-        opacity: 0;
-        transition: 0.4s;
-       } 
-    
-       [data-tooltip]:hover::after {
-        opacity: 1;
-        top: 3em;
-       }
-    
-       .dark-mode [data-tooltip]::after {
-        background: #333333;
-        color: #fff;
-        border:1px solid #e9e9e9;
-       }
-    
-        .logo__img_header {
-            margin: auto;
-            justify-content: center;
-        }
-    
-        body { 
-            margin: 0;
-            -ms-user-select: none; 
-            -moz-user-select: none; 
-            -webkit-user-select: none; 
-            user-select: none; 
-        }
-    
-        .button2 {
-            margin-top: 40px;
-            margin-right: 60px;
-        }
-    
-        .button3 {
-            margin-right: 40px;
-        }
-    
-        images {
-            display: flex;
-            justify-content: left;
-        }
-    
-        .navbar {
-            display: flex;
-            align-items: center;
-            text-align: left;
-            border-bottom: 1px solid #00000023;
-            background: #ffffff;;
-            transition: 0.3s;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-    
-        .navbar a {
-            text-decoration: none;
-            color: black;
-            padding: 8px 16px;
-        }
-    
-        .dark-mode .navbar {
-            background-color: #1b1b1b;
-            border-bottom: 1px solid #646464;
-        }
-    
-        .dark-mode button:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px #42a0ff;
-        }
-    
-        .dark-mode button {
-            background-color: #1b1b1b;
-            border: 1px solid #646464;
-        }
-    
-        .dark-mode img {
-            filter: invert(0) hue-rotate(180deg);
-        }
-    
-        body .logo__img_header {
-            filter: invert(0) hue-rotate(180deg);
-        }
-    
-        .dark-mode .logo__img_header {
-            filter: invert(1) hue-rotate(180deg);
-        }
-    
-        .dark-mode button:hover {
-            background: rgba(137, 137, 137, 0.684);
-            opacity: 1.0;
-            transition: 0.3s;  
-        }
-    
-        .dark-mode button:hover {opacity: 1.0}
-    
-        .dark-mode #favicon {
-            filter: invert(0) hue-rotate(180deg);
-        }
-    
-        .dark-mode button {
-            background: rgba(0, 0, 0, 0.426);
-            opacity: 0.8;
-            color: #ffffff;
-        }
-    
-        .dark-mode .navbar a {
-            color: white;
-        }
-    
-        .dark-mode sup {
-            transition: 0.3s;
-            color: #333333;
-            background-color: #e9e9e9;
-            border-radius: 5px;
-            padding: 3px 3px;
-        }
-    
-        body {
-            background-color: white;
-            transition: 0.3s;
-            color: rgb(47, 47, 47);
-        }
-    
-        button {
-            appearance: none;
-            border: 0;
-            border-radius: 5px;
-            background: #e9e9e9;
-            color: #000000;
-            border:1px solid #cbcbcb;
-            padding: 8px 16px;
-            font-size: 16px;
-            margin: 4px 2px;
-            opacity: 0.8;
-            transition: 0.3s;   
-        }
-    
-        button:hover {
-            background: #ffffff;
-        }
-    
-        button:hover {opacity: 1}
-    
-        button:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px #006dda;
-        }
-    
-        .dark-mode {
-            background-color: #1b1b1b;
-            transition: 0.3s;
-            color: white;
+    function myFunction() {
+      var element = document.body;
+      var icon = document.getElementById("theme-icon");
+      var text = document.getElementById("theme-text");
+      
+      element.classList.toggle("dark-mode");
+      
+      if (element.classList.contains("dark-mode")) {
+        icon.src = "img/light-mode.png";
+        text.textContent = "Light mode";
+        localStorage.setItem("theme", "dark");
+      } else {
+        icon.src = "img/night-mode.png";
+        text.textContent = "Night mode";
+        localStorage.setItem("theme", "light");
+      }
+    }
+
+    function loadTheme() {
+      var theme = localStorage.getItem("theme");
+      var element = document.body;
+      var icon = document.getElementById("theme-icon");
+      var text = document.getElementById("theme-text");
+      
+      if (theme === "dark") {
+        element.classList.add("dark-mode");
+        icon.src = "img/light-mode.png";
+        text.textContent = "Light mode";
+      } else {
+        icon.src = "img/night-mode.png";
+        text.textContent = "Night mode";
+      }
+    }
+
+    function showSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.add('visible');
+    }
+
+    function hideSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.remove('visible');
+    }
+
+    function updateTime() {
+            const options = {
+                timeZone: 'Europe/Kiev',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-GB', options);
+            
+            document.getElementById('clock').textContent = timeString;
         }
 
-        .a_3:hover {
-            border-radius: 5px;
-            background: #ffffffaf;
-            padding-top: 20px;
-        }
+        setInterval(updateTime, 1000);
 
-        .dark-mode .a_3:hover {
-            border-radius: 5px;
-            background-color: #4a4a4a;
-            padding-top: 20px;
-        }
-        
-        .a_4:focus {
-            border:1px solid #aeaeaebb;
-            border-radius: 5px;
-            padding-top: auto;
-        }
+        updateTime();
 
-        a { 
-            text-decoration: none;
-            display: inline;
-            text-align: center;
-            margin: 0;
-            padding: 4px;
-            color: white;
-        }
+  </script>
+
+  <style>
+    h1 {
+      margin: 20px;
+    }
+
+    .p1 {
+      margin-top: 30px;
+    }
+
+    @keyframes highlight {
+      from { background-color: rgb(142, 142, 142); }
+      to { background-color: transparent; }
+    }
+
+    .highlighted {
+      animation: highlight 2s forwards;
+    }
+
+    * {
+      text-align: center;
+    }
+
+    .dark-mode {
+      background-color: #1b1b1b;
+      transition: 0.3s;
+      color: white;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    body img {
+      filter: invert(1);
+      transition: 0.3s;
+      margin-right: 5px;
+    }
+
+    .dontcopy {
+      -ms-user-select: none; 
+      -moz-user-select: none; 
+      -webkit-user-select: none; 
+      user-select: none; 
+    }
+
+    button {
+      appearance: none;
+      background: #ffffff;
+      border:1px solid #cbcbcb;
+      padding: 8px 16px;
+      font-size: 16px;
+      margin: 4px 2px;
+      opacity: 0.8;
+      transition: 0.3s;   
+    }
+
+    .dark-mode button {
+      background: #333;
+      color: #ffffff;
+      border:1px solid #606060;
+      opacity: 0.8;
+      transition: 0.3s;   
+    }
+
+    .dark-mode button:hover {
+      background: #434343;
+      color: #ffffff;
+      border:1px solid #696969;
+      opacity: 1;
+      transition: 0.3s;   
+    }
+
+    button:hover {
+      opacity: 1;
+      background: #f7f7f7;
+      border:1px solid #a7a7a7;
+    }
+
+    .dark-mode img {
+      transition: 0.3s;
+      filter: invert(0);
+    }
+
+    .img1 {
+      margin-right: 15px;
+      margin-bottom: -5px;
+    } 
+
+    body {
+      background-color: white;
+      transition: 0.3s;
+      color: rgb(47, 47, 47);
+      min-height: 100vh;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    nav {
+      background-color: white;
+      transition: 0.3s;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode svg {
+      filter: invert(1);
+    }
+
+    .dark-mode nav {
+      background-color: #333;
+      transition: 0.3s;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode nav a {
+      color: #ffffff;
+    }
+
+    .dark-mode nav a:hover {
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+      background-color: #505050;
+      transition: 0.3s;
+    }
+
+    nav ul {
+      transition: 0.3s;
+      width: 100%;
+      list-style: none;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    nav li {
+      height: 50px;
+    }
+
+    nav a {
+      transition: 0.3s;
+      height: 100%;
+      padding: 0 30px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      color: black;
+    }
+
+    nav a:hover {
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+      background-color: #f0f0f0;
+    }
+
+    nav li:first-child {
+      margin-right: auto;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: 250px;
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+      list-style: none;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      transform: translateX(100%);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .sidebar.visible {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .dark-mode .sidebar {
+      background-color: #333333bc;
+      backdrop-filter: blur(12px);
+    }
+
+    .sidebar li {
+      width: 100%;
+    }
+
+    .sidebar a {
+      width: 100%;
+    }
+
+    .menu-button {
+      display: none;
+    }
+
+    @media(max-width: 1000px) {
+
+      .hideOnMobile{
+        display: none;
+      }
+
+      .menu-button{
+        display: block;
+      }
+
+    }
+
+    @media(max-width: 400px) {
+
+      .sidebar{
+        width: 100%;
+      }
+
+    }
     
-        .a_1 {
-            text-decoration: none;
-            text-align:center;
-            padding: 15px;
-            display: inline;
-        }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: yellow;
+      text-align: center;
+      padding: 10px;
+      box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
+    }
 
-        .a_5 {
-            margin-right: 10px;
-        }
+    .dark-mode .footer {
+      background-color: rgb(141, 141, 0);
+    }
 
-        .button1 {
-            margin-right: 15px;
-            margin-bottom: -3px;
-        }
-    
-        .button_img {
-            margin-right: 15px;
-        }
-    
-        img {
-            filter: invert(1) hue-rotate(180deg);
-            transition: 0.3s;
-        }
-    
-        .button6 {
-            margin-right: 15px;
-            margin-bottom: -5px;
-        }
-    
-        button_img1 {
-            left: 0; top: 0;
-        }
-    
-        .button_margin {
-            margin-bottom: 50px;
-        }
-    
-        sup {
-            color: #ffffff;
-            transition: 0.3s;
-            background-color: #000000;
-            border-radius: 5px;
-            padding: 3px 3px;
-            font-size: 10px;
-        }
-        
-        a {
-            color: rgb(0, 0, 0);
-            transition: 0.3s;
-        }
+  </style>
 
-        .a_2 {
-            flex-direction: column;
-            transition: 0.3s;
-        }
-
-        .dark-mode a {
-            color: white;
-        }
-
-        .h1_1 {
-            padding-top: 70px;
-        }
-    
-        .page-footer {
-            padding-bottom: 20px;
-            margin-top: 40px;
-            color: rgb(0, 0, 0);
-            border-top: 1px solid #00000023;
-            border-bottom: 1px solid #00000023;
-            background-color: white;
-            backdrop-filter: blur(3px);
-            transition: 0.3s;
-            flex-grow: 0;
-            flex-shrink: 0;
-        }
-
-        .dark-mode .page-footer {
-            color: white;
-            background-color: #1b1b1b;;
-            backdrop-filter: blur(3px);
-            border-top: 1px solid #646464;
-            border-bottom: 1px solid #646464;
-        }
-
-        .container {
-            height: 100vh;
-        }
-        
-        .wrapper {
-            min-height: 100%;
-            display: inline-block;
-        }
-
-    </style>
-<body>
-  <div class="container">
-     <div class="navbar">
-        <a href="">
-            <img src="img/icon.png" alt="logo" class="logo__img_header" width="40">
-          </a>
-          <div>
-            <a class="a_3" data-tooltip="RU/UA/TT/AR/EN" href="javascript:toggleLanguage()">
-                <img id="language-icon" src="img/russian.png" alt="language" class="button_img2" width="25">
-            </a>
-          <a class="a_3, a_5" data-tooltip="Light/dark mode" href="javascript:myFunction()">
-            <img id="theme-icon" src="img/night-mode.png" alt="light/dark mode" class="button_img2" width="25">
-          </a>
-          </div>
-    </div>
-</html>
-</head>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<div class="wrapper">
-<h1 class="h1_1" id="about-me">About me</h1>
-<p id="intro">Hi my name is Dima</p>
-<p id="pronouns">Pronouns: he/him</p>
-<h1 id="hobbies">Hobbies:</h1>
-<p id="hobby1">- Create websites using HTML and CSS</p>
-<p id="hobby2">- Drawing (I’m not doing well, but I’m trying)</p>
-<h1 id="links">Links:</h1>
-    <a href="https://www.reddit.com/user/Dima_WTF/">
-        <button><img src="img/reddit.png"  height="20" class="button1">Reddit</button>
-    </a>
-    <a href="https://www.youtube.com/@dzksosl3928">
-        <button><img src="img/youtube.png"  height="20" class="button1">YouTube</button>
-    </a>
-    <a href="https://github.com/DimaDomaratckiy2022">
-        <button><img src="img/github.png"  height="20" class="button1">Github</button>
-    </a>
-    <a href="https://x.com/Dom2010Dim">
-        <button><img src="img/twitter.png"  height="20" class="button1">Twitter</button>
-    </a>
-    <a href="https://t.me/dima_and_point1">
-        <button id="tg"><img src="img/telegram.png" height="20" class="button1">Telegram channel</button>
-    </a>
-<p>                                                                     </p>
-<h1 id="ot">Other:</h1>
-&nbsp
-<button onclick="downloadSite()" id="ds"><img src="img/download.png" height="25" class="button6">Download site</button>
-<a href="https://github.com/DimaDomaratckiy2022/sleep">
-    <button id="mp"><img src="img/python.png" height="25" class="button6">My program <sup>NEW</sup></button>
-</a>
-<a href="mailto:dima849301@keemail.me">
-    <button><img src="img/mail.png"  height="20" class="button1">E-mail</button>
-</a>
-</div>
-    <footer class="page-footer">
-    <p id="credits">Credits to:</p>
-    <a class="a_2, a_4" href="https://www.youtube.com/">YouTube</a>
-    <a class="a_2, a_4" href="https://habr.com">Habr</a>
-    <a class="a_2, a_4" href="https://stackoverflow.com/">Stack Overflow</a>
-    <a id="tc" class="a_2, a_4" href="https://t.me/htmlshitchat">Telegram chat</a>
+    <footer class="footer">
+      <p class="dontcopy"><img src="img/warning.png" height="20" class="img1">The site is unstable at the moment :(</p>
   </footer>
 </body>
 </html>
-</div>
