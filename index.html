@@ -14,7 +14,6 @@
   <nav>
     <ul class="sidebar">
       <li class="dontcopy" onclick=hideSidebar()><a><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
-      <li class="dontcopy"><a href="javascript:myFunction()"><img id="theme-icon" src="img/night-mode.png" width="25"><span id="theme-text">Night mode</span></a></li>
       <li class="dontcopy"><a href="javascript:highlightElement('about')"><img src="img/user.png" width="25">About me</a></li>
       <li class="dontcopy"><a href="javascript:highlightAnchor()"><img src="img/link.png" width="25">Links</a></li>
       <li class="dontcopy"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
@@ -22,7 +21,6 @@
     </ul>
     <ul>
       <li><a href=""> <img src="img/icon.png" class="logo" alt="logo" width="40">Dima ;)</a></li>
-      <li class="hideOnMobile"><a href="javascript:myFunction()"><img id="theme-icon" src="img/night-mode.png" width="25"><span id="theme-text">Night mode</span></a></li>
       <li class="hideOnMobile"><a href="javascript:highlightElement('about')"><img src="img/user.png" width="25">About me</a></li>
       <li class="hideOnMobile"><a href="javascript:highlightElement('links')"><img src="img/link.png" width="25">Links</a></li>
       <li class="hideOnMobile"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
@@ -108,6 +106,7 @@
 
         const photoUrls = [
             'img/github.png',
+            'img/warning.png',
             'img/download.png',
             'img/reddit.png',
             'img/icon.png',
@@ -156,40 +155,6 @@
         }
     }
 
-    function myFunction() {
-      var element = document.body;
-      var icon = document.getElementById("theme-icon");
-      var text = document.getElementById("theme-text");
-      
-      element.classList.toggle("dark-mode");
-      
-      if (element.classList.contains("dark-mode")) {
-        icon.src = "img/light-mode.png";
-        text.textContent = "Light mode";
-        localStorage.setItem("theme", "dark");
-      } else {
-        icon.src = "img/night-mode.png";
-        text.textContent = "Night mode";
-        localStorage.setItem("theme", "light");
-      }
-    }
-
-    function loadTheme() {
-      var theme = localStorage.getItem("theme");
-      var element = document.body;
-      var icon = document.getElementById("theme-icon");
-      var text = document.getElementById("theme-text");
-      
-      if (theme === "dark") {
-        element.classList.add("dark-mode");
-        icon.src = "img/light-mode.png";
-        text.textContent = "Light mode";
-      } else {
-        icon.src = "img/night-mode.png";
-        text.textContent = "Night mode";
-      }
-    }
-
     function showSidebar() {
       const sidebar = document.querySelector('.sidebar');
       sidebar.classList.add('visible');
@@ -221,236 +186,231 @@
 
   </script>
 
-  <style>
-    .logo {
-      filter: invert(0);
-    } 
+<style>
+body {
+  background-color: white;
+  transition: background-color 0.3s, color 0.3s;
+  color: rgb(47, 47, 47);
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-    h1 {
-      margin: 20px;
-    }
+a {
+  text-decoration: none;
+}
 
-    .p1 {
-      margin-top: 30px;
-    }
+button {
+  border-radius: 6px;
+  appearance: none;
+  background: #ffffff;
+  border: 1px solid #cbcbcb;
+  padding: 8px 16px;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  cursor: pointer;
+  margin: 4px 2px;
+  opacity: 0.8;
+  transition: background 0.3s, color 0.3s, opacity 0.3s;
+}
 
-    @keyframes highlight {
-      from { background-color: rgb(142, 142, 142); }
-      to { background-color: transparent; }
-    }
+button:hover {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+  opacity: 1;
+  background: #f7f7f7;
+  border: 1px solid #a7a7a7;
+}
 
-    .highlighted {
-      animation: highlight 2s forwards;
-      border-radius: 5px;
-    }
+img {
+  transition: filter 0.3s;
+}
 
-    * {
-      text-align: center;
-    }
+.logo {
+  filter: invert(0);
+}
 
-    .dark-mode {
-      background-color: #2a2a2a;
-      transition: 0.3s;
-      color: white;
-    }
+h1 {
+  margin: 20px;
+}
 
-    a {
-      text-decoration: none;
-    }
+.p1 {
+  margin-top: 30px;
+}
 
-    body img {
-      filter: invert(1);
-      transition: 0.3s;
-      margin-right: 5px;
-    }
+.highlighted {
+  animation: highlight 2s forwards;
+  border-radius: 5px;
+}
 
-    .dontcopy {
-      -ms-user-select: none; 
-      -moz-user-select: none; 
-      -webkit-user-select: none; 
-      user-select: none; 
-    }
+@keyframes highlight {
+  from { background-color: rgb(142, 142, 142); }
+  to { background-color: transparent; }
+}
 
-    button {
-      border-radius: 6px;
-      appearance: none;
-      background: #ffffff;
-      border:1px solid #cbcbcb;
-      padding: 8px 16px;
-      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-      font-size: 16px;
-      cursor: pointer;
-      margin: 4px 2px;
-      opacity: 0.8;
-      transition: 0.3s;   
-    }
+* {
+  text-align: center;
+}
 
-    .dark-mode button {
-      background: #333;
-      color: #ffffff;
-      box-shadow: 3px 3px 5px rgba(171, 171, 171, 0.1);
-      border:1px solid #606060;
-      opacity: 0.8;
-      transition: 0.3s;   
-    }
+.dontcopy {
+  -ms-user-select: none; 
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  user-select: none; 
+}
 
-    .dark-mode button:hover {
-      background: #434343;
-      color: #ffffff;
-      border:1px solid #696969;
-      opacity: 1;
-      transition: 0.3s;   
-    }
+nav {
+  background-color: white;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+}
 
-    button:hover {
-      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-      opacity: 1;
-      background: #f7f7f7;
-      border:1px solid #a7a7a7;
-    }
+nav ul {
+  transition: 0.3s;
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 
-    .dark-mode img {
-      transition: 0.3s;
-      filter: invert(0);
-    }
+nav li {
+  height: 75px;
+}
 
-    .img1 {
-      margin-right: 15px;
-      margin-bottom: -5px;
-    } 
+nav a {
+  transition: color 0.3s;
+  height: 100%;
+  padding: 0 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: black;
+}
 
-    body {
-      background-color: white;
-      transition: 0.3s;
-      color: rgb(47, 47, 47);
-      min-height: 100vh;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+nav a:hover {
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
+}
 
-    nav {
-      background-color: white;
-      transition: 0.3s;
-      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-    }
+nav li:first-child {
+  margin-right: auto;
+}
 
-    .dark-mode svg {
-      filter: invert(1);
-    }
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
-    .dark-mode nav {
-      background-color: #1b1b1b;
-      transition: 0.3s;
-      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-    }
+.sidebar.visible {
+  transform: translateX(0);
+  opacity: 1;
+}
 
-    .dark-mode nav a {
-      color: #ffffff;
-    }
+.sidebar li {
+  width: 100%;
+}
 
-    .dark-mode nav a:hover {
-      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-      background-color: #505050;
-      transition: 0.3s;
-    }
+.sidebar a {
+  width: 100%;
+}
 
-    nav ul {
-      transition: 0.3s;
-      width: 100%;
-      list-style: none;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
+.menu-button {
+  display: none;
+}
 
-    nav li {
-      height: 75px;
-    }
+.img1 {
+  margin-right: 15px;
+  margin-bottom: -5px;
+}
 
-    nav a {
-      transition: 0.3s;
-      height: 100%;
-      padding: 0 30px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      color: black;
-    }
+@media (prefers-color-scheme: light) {
+  body img {
+  filter: invert(1);
+  margin-right: 5px;
+}
+}
 
-    nav a:hover {
-      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-      background-color: #f0f0f0;
-    }
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #2a2a2a;
+    color: #ffffff;
+  }
 
-    nav li:first-child {
-      margin-right: auto;
-    }
+  button {
+    background: #333;
+    color: #ffffff;
+    box-shadow: 3px 3px 5px rgba(171, 171, 171, 0.1);
+    border: 1px solid #606060;
+    opacity: 0.8;
+  }
 
-    .sidebar {
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: 100vh;
-      width: 250px;
-      background-color: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
-      list-style: none;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      transform: translateX(100%);
-      opacity: 0;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
+  button:hover {
+    background: #434343;
+    border: 1px solid #696969;
+    opacity: 1;
+  }
 
-    .sidebar.visible {
-      transform: translateX(0);
-      opacity: 1;
-    }
+  img, svg {
+    transition: filter 0.3s;
+  }
 
-    .dark-mode .sidebar {
-      background-color: #333333bc;
-      backdrop-filter: blur(12px);
-      transition: 0.3s;
-    }
+  img {
+    filter: invert(0);
+  }
 
-    .sidebar li {
-      width: 100%;
-    }
+  svg {
+    filter: invert(1);
+  }
 
-    .sidebar a {
-      width: 100%;
-    }
+  nav {
+    background-color: #1b1b1b;
+  }
 
-    .menu-button {
-      display: none;
-    }
+  nav a {
+    color: #ffffff;
+  }
 
-    @media(max-width: 1000px) {
+  nav a:hover {
+    background-color: #505050;
+  }
 
-      .hideOnMobile{
-        display: none;
-      }
+  .sidebar {
+    background-color: #333333bc;
+  }
+}
 
-      .menu-button{
-        display: block;
-      }
+@media (max-width: 1000px) {
+  .hideOnMobile {
+    display: none;
+  }
 
-    }
+  .menu-button {
+    display: block;
+  }
+}
 
-    @media(max-width: 400px) {
-
-      .sidebar{
-        width: 100%;
-      }
-
-    }
-
-  </style>
+@media (max-width: 400px) {
+  .sidebar {
+    width: 100%;
+  }
+}
+</style>
 </body>
 </html>
