@@ -13,11 +13,11 @@
 <body>
   <nav>
     <ul class="sidebar">
-      <li class="dontcopy" onclick=hideSidebar()><a><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
-      <li class="dontcopy"><a href="javascript:highlightElement('about')"><img src="img/user.png" width="25">About me</a></li>
-      <li class="dontcopy"><a href="javascript:highlightAnchor()"><img src="img/link.png" width="25">Links</a></li>
-      <li class="dontcopy"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
-      <li class="dontcopy"><a href="https://github.com/DimaDomaratckiy2022/sleep"><img src="img/python.png" width="25">My program</a></li>
+      <li class="dontcopy, li1" onclick=hideSidebar()><a><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
+      <li class="dontcopy, li1"><a href="javascript:highlightElement('about')"><img class="img2" src="img/user.png" width="25">About me</a></li>
+      <li class="dontcopy, li1"><a href="javascript:highlightAnchor()"><img src="img/link.png" width="25">Links</a></li>
+      <li class="dontcopy, li1"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
+      <li class="dontcopy, li1"><a href="https://github.com/DimaDomaratckiy2022/sleep"><img src="img/python.png" width="25">My program</a></li>
     </ul>
     <ul>
       <li><a href=""> <img src="img/icon.png" class="logo" alt="logo" width="40">Dima ;)</a></li>
@@ -187,6 +187,7 @@
   </script>
 
 <style>
+
 body {
   background-color: white;
   transition: background-color 0.3s, color 0.3s;
@@ -221,6 +222,13 @@ button:hover {
   opacity: 1;
   background: #f7f7f7;
   border: 1px solid #a7a7a7;
+}
+
+button:active {
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+  opacity: 1;
+  background: #e5e5e5;
+  border: 1px solid #6d6d6d;
 }
 
 img {
@@ -277,6 +285,10 @@ nav ul {
 
 nav li {
   height: 75px;
+}
+
+.li1 {
+  border-bottom: 1px solid #484848;
 }
 
 nav a {
@@ -348,13 +360,25 @@ img {
   body img {
   filter: invert(1);
   margin-right: 5px;
-}
+  }
+
+  .li1 {
+    border-bottom: 1px solid #dbdbdb;
+  }
+
 }
 
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #2a2a2a;
     color: #ffffff;
+  }
+
+  button:active {
+    background: #686868;
+    color: #ffffff;
+    border: 1px solid #414141;
+    opacity: 1.0;
   }
 
   button {
