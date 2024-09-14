@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href='https://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet'>
   <script src="js/jszip.min.js"></script>
   <script src="js/FileSaver.min.js"></script>
   <meta charset="UTF-8">
@@ -20,12 +21,12 @@
       <li class="dontcopy, li1"><a href="https://github.com/DimaDomaratckiy2022/sleep"><img src="img/python.png" width="25">My program</a></li>
     </ul>
     <ul>
-      <li><a href=""> <img src="img/icon.png" class="logo" alt="logo" width="40">Dima ;)</a></li>
+      <li><a class="nav1" href=""> <img src="img/icon.png" class="logo" alt="logo" width="40">Dima ;)</a></li>
       <li class="hideOnMobile"><a href="javascript:highlightElement('about')"><img src="img/user.png" width="25">About me</a></li>
       <li class="hideOnMobile"><a href="javascript:highlightElement('links')"><img src="img/link.png" width="25">Links</a></li>
       <li class="hideOnMobile"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
       <li class="hideOnMobile"><a href="https://github.com/DimaDomaratckiy2022/sleep"><img src="img/python.png" width="25">My program</a></li>
-      <li class="menu-button" onclick=showSidebar()><a><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
+      <li class="menu-button" onclick=showSidebar()><a class="nav1"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
     </ul>
   </nav>
   <h1 id="about" class="top1">About me</h1>
@@ -196,7 +197,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Cantarell';font-size: 20px;
 }
 
 a {
@@ -204,31 +205,23 @@ a {
 }
 
 button {
-  border-radius: 6px;
+  border-radius: 20px;
   appearance: none;
-  background: #ffffff;
-  border: 1px solid #cbcbcb;
+  background: #ebebeb;
+  border: 1px solid #cbcbcb00;
   padding: 8px 16px;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
+  font-size: 17px;
   cursor: pointer;
   margin: 4px 2px;
-  opacity: 0.8;
   transition: background 0.3s, color 0.3s, opacity 0.3s;
 }
 
 button:hover {
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-  opacity: 1;
-  background: #f7f7f7;
-  border: 1px solid #a7a7a7;
+  background: #d6d6d6;
 }
 
 button:active {
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-  opacity: 1;
-  background: #e5e5e5;
-  border: 1px solid #6d6d6d;
+  background: #c2c1c1;
 }
 
 img {
@@ -269,9 +262,9 @@ h1 {
 }
 
 nav {
-  background-color: white;
-  transition: background-color 0.3s, box-shadow 0.3s;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f5f3f3;
+  border-bottom: 1px solid #48484818;
+  transition: background-color 0.3s,
 }
 
 nav ul {
@@ -288,7 +281,7 @@ nav li {
 }
 
 .li1 {
-  border-bottom: 1px solid #484848;
+  border-bottom: 1px solid #48484873;
 }
 
 nav a {
@@ -302,8 +295,19 @@ nav a {
 }
 
 nav a:hover {
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
   background-color: #f0f0f0;
+}
+
+.nav1 {
+  border-radius: 5px;
+}
+
+.nav1 a:hover {
+  background-color: #e9e9e9;
+}
+
+.nav1:active {
+  background-color: #d3d3d3;
 }
 
 nav li:first-child {
@@ -316,9 +320,8 @@ nav li:first-child {
   right: 0;
   height: 100vh;
   width: 250px;
-  background-color: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  background-color: rgb(255, 255, 255);
+  box-shadow: -100px 0 100px rgba(0, 0, 0, 0.1);
   list-style: none;
   z-index: 1000;
   display: flex;
@@ -365,33 +368,33 @@ img {
   .li1 {
     border-bottom: 1px solid #dbdbdb;
   }
-
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #2a2a2a;
+    background-color: #1e1e1e;
     color: #ffffff;
-  }
-
-  button:active {
-    background: #686868;
-    color: #ffffff;
-    border: 1px solid #414141;
-    opacity: 1.0;
   }
 
   button {
-    background: #333;
+    border-radius: 20px;
+    appearance: none;
+    background: #4c4c4c;
     color: #ffffff;
-    border: 1px solid #606060;
-    opacity: 0.8;
+    border: 1px solid #cbcbcb00;
+    padding: 8px 16px;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 4px 2px;
+    transition: background 0.3s, color 0.3s, opacity 0.3s;
   }
 
   button:hover {
-    background: #434343;
-    border: 1px solid #696969;
-    opacity: 1;
+    background: #5e5d5d;
+  }
+
+  button:active {
+    background: #727272;
   }
 
   img, svg {
@@ -407,7 +410,7 @@ img {
   }
 
   nav {
-    background-color: #1b1b1b;
+    background-color: #242424;
   }
 
   nav a {
@@ -419,7 +422,7 @@ img {
   }
 
   .sidebar {
-    background-color: #333333bc;
+    background-color: #333333;
   }
 }
 
