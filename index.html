@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href='https://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet'>
   <script src="js/jszip.min.js"></script>
   <script src="js/FileSaver.min.js"></script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="img/icon.png" type="image/x-icon">
-  <title>About me</title>
+  <title>About Dima</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -17,14 +18,14 @@
       <li class="dontcopy, li1"><a href="javascript:highlightElement('about')"><img class="img2" src="img/user.png" width="25">About me</a></li>
       <li class="dontcopy, li1"><a href="javascript:highlightAnchor()"><img src="img/link.png" width="25">Links</a></li>
       <li class="dontcopy, li1"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
-      <li class="dontcopy, li1"><a href="https://github.com/DimaDomaratckiy2022/sleep"><img src="img/python.png" width="25">My program</a></li>
+      <li class="dontcopy, li1"><a href="https://github.com/DimaDomaratckiy2022/adb-info"><img src="img/python.png" width="25">My program</a></li>
     </ul>
     <ul>
       <li><a class="nav1" href=""> <img src="img/icon.png" class="logo" alt="logo" width="40">Dima ;)</a></li>
       <li class="hideOnMobile"><a href="javascript:highlightElement('about')"><img src="img/user.png" width="25">About me</a></li>
       <li class="hideOnMobile"><a href="javascript:highlightElement('links')"><img src="img/link.png" width="25">Links</a></li>
       <li class="hideOnMobile"><a href="javascript:downloadSite()"><img src="img/download.png" height="25">Download site</a></li>
-      <li class="hideOnMobile"><a href="https://github.com/DimaDomaratckiy2022/sleep"><img src="img/python.png" width="25">My program</a></li>
+      <li class="hideOnMobile"><a href="https://github.com/DimaDomaratckiy2022/adb-info"><img src="img/python.png" width="25">My program</a></li>
       <li class="menu-button" onclick=showSidebar()><a class="nav1"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
     </ul>
   </nav>
@@ -49,11 +50,24 @@
         <button><img src="img/twitter.png"  height="20" class="img1">Twitter</button>
     </a>
     <a href="https://t.me/dima_shitpost">
-        <button><img src="img/telegram.png" height="20" class="img1">Shitpost</button>
+        <button><img src="img/telegram.png" height="20" class="img1">Channel</button>
     </a>
-    <a href="mailto:dima849301@keemail.me">
-      <button><img src="img/mail.png"  height="20" class="img1">E-mail</button>
+    <a href="https://matrix.to/#/@dima-1111:matrix.org">
+      <button><img src="img/matrix.png" height="20" class="img1">Matrix</button>
     </a>
+  
+<a href="#modal">
+  <button><img src="img/mail.png" height="20" class="img1">E-mail</button>
+</a>
+<div id="modal">
+  <div class="modal__window">
+      <a class="modal__close" href="#">✕</a>
+      <h2>Other email addresses</h2>
+      <a href="mailto:dima849301@keemail.me">dima849301@keemail.me</a>
+      <a href="mailto:dimadomaratsky@proton.me">dimadomaratsky@proton.me</a>
+  </div>
+</div>
+
     <p class="p1">Time in my country</p>
     <div class="clock" id="clock"></div>
   <script>
@@ -106,10 +120,15 @@
         ];
 
         const photoUrls = [
+            'img/link.png',
+            'img/user.png',
             'img/github.png',
+            'img/warning.png',
             'img/download.png',
             'img/reddit.png',
             'img/icon.png',
+            'img/night-mode.png',
+            'img/light-mode.png',
             'img/telegram.png',
             'img/twitter.png',
             'img/youtube.png',
@@ -185,6 +204,39 @@
   </script>
 
 <style>
+
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,.5);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__window {
+  position: relative;
+  background-color: rgb(0, 0, 0);
+  border-radius: 10px;
+  padding: 4em 2em;
+}
+
+.modal__close {
+  position: absolute;
+  color: rgb(255, 255, 255);
+  top: -2px;
+  right: 0;
+}
+
+#modal:not(:target) {
+  visibility: hidden;
+  opacity: 0;
+}
+
 body {
   background-color: white;
   transition: background-color 0.3s, color 0.3s;
@@ -193,7 +245,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  font-family: Consolas,monaco,monospace;
+  font-family: 'Cantarell';font-size: 20px;
 }
 
 a {
@@ -201,10 +253,10 @@ a {
 }
 
 button {
-  border-radius: 5px;
+  border-radius: 20px;
   appearance: none;
-  background: #ffffff;
-  border: 1px solid #000000;
+  background: #ebebeb;
+  border: 1px solid #cbcbcb00;
   padding: 8px 16px;
   font-size: 17px;
   cursor: pointer;
@@ -258,7 +310,7 @@ h1 {
 }
 
 nav {
-  background-color: #ffffff;
+  background-color: #f5f3f3;
   border-bottom: 1px solid #48484818;
   transition: background-color 0.3s,
 }
@@ -291,13 +343,11 @@ nav a {
 }
 
 nav a:hover {
-  transition: background 0.3s, color 0.3s, opacity 0.3s;
-  background-color: #f0f0f0;
-  border: 1px solid #000000;
+  background-color: #cccccc;
 }
 
-.nav1:active {
-  background-color: #8a8a8a;
+nav a:active {
+  background-color: #a1a1a1;
 }
 
 nav li:first-child {
@@ -310,8 +360,9 @@ nav li:first-child {
   right: 0;
   height: 100vh;
   width: 250px;
-  background-color: rgb(255, 255, 255);
-  border-left: 1px solid #48484873;
+  background-color: rgba(255, 255, 255, 0.63);
+  backdrop-filter: blur(10px);
+  border-left: 1px solid #48484818;
   list-style: none;
   z-index: 1000;
   display: flex;
@@ -320,6 +371,7 @@ nav li:first-child {
   justify-content: flex-start;
   transform: translateX(100%);
   opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .sidebar.visible {
@@ -350,20 +402,39 @@ img {
 
 @media (prefers-color-scheme: light) {
   body img {
-    filter: invert(1);
-    margin-right: 5px;
+  filter: invert(1);
+  margin-right: 5px;
   }
 
   .li1 {
     border-bottom: 1px solid #dbdbdb;
   }
 
-  nav a:hover {
-    background-color: #b4b4b4;
+  #modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  nav a:active {
-    background-color: #858585;
+  .modal__window {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #00000052;
+    padding: 4em 2em;
+  }
+
+  .modal__close {
+    position: absolute;
+    color: rgb(0, 0, 0);
+    top: -6px;
+    right: 0;
   }
 }
 
@@ -374,11 +445,11 @@ img {
   }
 
   button {
-    border-radius: 5px;
+    border-radius: 20px;
     appearance: none;
-    border: 1px solid #ffffff;
-    background: #1e1e1e;;
+    background: #4c4c4c;
     color: #ffffff;
+    border: 1px solid #cbcbcb00;
     padding: 8px 16px;
     font-size: 17px;
     cursor: pointer;
@@ -407,7 +478,7 @@ img {
   }
 
   nav {
-    background-color: #1e1e1e;
+    background-color: #242424;
   }
 
   nav a {
@@ -418,8 +489,13 @@ img {
     background-color: #505050;
   }
 
+  nav a:active {
+    background-color: #747474;
+  }
+
   .sidebar {
-    background-color: #333333;
+    background-color: #333333be;
+    backdrop-filter: blur(10px);
   }
 }
 
