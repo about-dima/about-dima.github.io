@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="img/icon.png" type="image/x-icon">
-  <title>About Dima</title>
+  <title>About me</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -218,18 +218,23 @@
   align-items: center;
 }
 
+a {
+  color: white;
+}
+
 .modal__window {
   position: relative;
   background-color: rgb(0, 0, 0);
   border-radius: 10px;
+  border: 1px solid #5a5a5a52;
   padding: 4em 2em;
 }
 
 .modal__close {
   position: absolute;
   color: rgb(255, 255, 255);
-  top: -2px;
-  right: 0;
+  top: -1px;
+  right: 6px;
 }
 
 #modal:not(:target) {
@@ -325,7 +330,7 @@ nav ul {
 }
 
 nav li {
-  height: 75px;
+  height: 70px;
 }
 
 .li1 {
@@ -411,30 +416,21 @@ img {
   }
 
   #modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(187, 187, 187, 0.5);
     backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .modal__window {
-    position: relative;
     background-color: rgb(255, 255, 255);
     border: 1px solid #00000052;
-    padding: 4em 2em;
   }
 
   .modal__close {
-    position: absolute;
     color: rgb(0, 0, 0);
-    top: -6px;
-    right: 0;
+  }
+
+  a {
+  color: rgb(0, 0, 0);
   }
 }
 
