@@ -1,79 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
-  <script src="js/jszip.min.js"></script>
-  <script src="js/FileSaver.min.js"></script>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="img/icon.png" type="image/x-icon">
-  <title>About Dima</title>
-  <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
+    <script src="js/jszip.min.js"></script>
+    <script src="js/FileSaver.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#020d1f">
+    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    <title>About Dima</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <nav>
-    <ul class="sidebar">
-      <li class="dontcopy, li1" onclick=hideSidebar()><a><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
-      <li class="dontcopy, li1"><a href="javascript:highlightElement('about')"><img class="img2" src="img/user.png" width="20">About me</a></li>
-      <li class="dontcopy, li1"><a href="javascript:highlightAnchor()"><img src="img/link.png" width="20">Links</a></li>
-      <li class="dontcopy, li1"><a href="javascript:downloadSite()"><img src="img/download.png" height="20">Download site</a></li>
-      <li class="dontcopy, li1"><a href="https://github.com/DimaDomaratckiy2022/adb-info"><img src="img/python.png" width="20">My program</a></li>
-    </ul>
-    <ul>
-      <li><a class="nav1" href=""> <img src="img/icon.png" class="logo" alt="logo" width="30">Dima ;)</a></li>
-      <li class="hideOnMobile"><a href="javascript:highlightElement('about')"><img src="img/user.png" width="20">About me</a></li>
-      <li class="hideOnMobile"><a href="javascript:highlightElement('links')"><img src="img/link.png" width="20">Links</a></li>
-      <li class="hideOnMobile"><a href="javascript:downloadSite()"><img src="img/download.png" height="20">Download site</a></li>
-      <li class="hideOnMobile"><a href="https://github.com/DimaDomaratckiy2022/adb-info"><img src="img/python.png" width="20">My program</a></li>
-      <li class="menu-button" onclick=showSidebar()><a class="nav1"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
-    </ul>
-  </nav>
-  <h1 id="about" class="top1">About me</h1>
-  <p>Hi my name is Dima</p>
-  <p>Pronouns: he/him</p>
-  <h1>Hobbies:</h1>
-        <p>Create apps with Python</p>
-        <p>Create websites using HTML and CSS</p>
-        <p>Drawing (I'm not doing well, but I'm trying)</p>
-  <h1 id="links">Links:</h1>
-    <a href="https://www.reddit.com/user/Dima_WTF/">
-        <button><img src="img/reddit.png"  height="20" class="img1">Reddit</button>
-    </a>
-    <a href="https://www.youtube.com/@dzksosl3928">
-        <button><img src="img/youtube.png"  height="20" class="img1">YouTube</button>
-    </a>
-    <a href="https://github.com/DimaDomaratckiy2022">
-        <button><img src="img/github.png"  height="20" class="img1">Github</button>
-    </a>
-    <a href="https://x.com/Dom2010Dim">
-        <button><img src="img/twitter.png"  height="20" class="img1">Twitter</button>
-    </a>
-    <a href="https://t.me/dima_shitpost">
-        <button><img src="img/telegram.png" height="20" class="img1">Channel</button>
-    </a>
-    <a href="https://matrix.to/#/@dima-1111:matrix.org">
-      <button><img src="img/matrix.png" height="20" class="img1">Matrix</button>
-    </a>
-  
-<a href="#modal">
-  <button><img src="img/mail.png" height="20" class="img1">E-mail</button>
-</a>
-<div id="modal">
-  <div class="modal__window">
-      <a class="modal__close" href="#">✕</a>
-      <h2>Other email addresses</h2>
-      <a href="mailto:dima849301@keemail.me">dima849301@keemail.me</a>
-      <a href="mailto:dimadomaratsky@proton.me">dimadomaratsky@proton.me</a>
-  </div>
-</div>
+<style>
+    #modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0,0,0,.5);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-    <p class="p1">Time in my country</p>
-    <div class="clock" id="clock"></div>
-  <script>
+    .p-modal {
+        margin: 30px;
+    }
+
+    a {
+        color: white;
+    }
+
+    .modal__window {
+        position: relative;
+        background-color: rgb(0, 0, 0);
+        border-radius: 10px;
+        border: 1px solid #5a5a5a52;
+        padding: 3em 2em;
+        margin: 30px;
+    }
+
+    .modal__close {
+        position: absolute;
+        color: rgb(255, 255, 255);
+        top: -1px;
+        padding: 10px;
+        right: 6px;
+    }
+
+    #modal:not(:target) {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    body {
+        background-color: white;
+        transition: background-color 0.3s, color 0.3s;
+        color: rgb(47, 47, 47);
+        min-height: 100vh;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: 'Product Sans', sans-serif;font-size: 20px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    button {
+        border-radius: 20px;
+        appearance: none;
+        background: #ebebeb;
+        border: 1px solid #cbcbcb00;
+        padding: 8px 16px;
+        font-size: 17px;
+        cursor: pointer;
+        margin: 4px 2px;
+        transition: background 0.3s, color 0.3s, opacity 0.3s;
+    }
+
+    button:hover {
+        background: #d6d6d6;
+    }
+
+    button:active {
+        background: #c2c1c1;
+    }
+
+    img {
+        transition: filter 0.3s;
+    }
+
+    .logo {
+        filter: invert(0);
+    }
+
+    h1 {
+        margin: 20px;
+    }
+
+    .p1 {
+        margin-top: 30px;
+    }
+
+    .highlighted {
+        animation: highlight 2s forwards;
+        border-radius: 5px;
+    }
+
+    @keyframes highlight {
+        from { background-color: rgb(142, 142, 142); }
+        to { background-color: transparent; }
+    }
+
+    * {
+        text-align: center;
+    }
+
+    .dontcopy {
+        -ms-user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    nav {
+        background-color: #f5f3f3;
+        border-bottom: 1px solid #48484818;
+        transition: background-color 0.3s,
+    }
+
+    nav ul {
+        transition: 0.3s;
+        width: 100%;
+        list-style: none;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    nav li {
+        height: 60px;
+    }
+
+    .li1 {
+        border-bottom: 1px solid #48484873;
+    }
+
+    nav a {
+        transition: color 0.3s;
+        height: 100%;
+        padding: 0 30px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        color: black;
+    }
+
+    nav a:hover {
+        background-color: #cccccc;
+    }
+
+    nav a:active {
+        background-color: #a1a1a1;
+    }
+
+    nav li:first-child {
+        margin-right: auto;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: rgba(255, 255, 255, 0.63);
+        backdrop-filter: blur(10px);
+        border-left: 1px solid #48484818;
+        list-style: none;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        transform: translateX(100%);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .sidebar.visible {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .sidebar li {
+        width: 100%;
+    }
+
+    .sidebar a {
+        width: 100%;
+    }
+
+    .menu-button {
+        display: none;
+    }
+
+    img {
+        margin-right: 5px;
+    }
+
+    .img1 {
+        margin-right: 15px;
+        margin-bottom: -5px;
+    }
+
+    .card {
+        max-width: 300px;
+        margin: auto;
+        padding: 16px;
+        text-align: center;
+        background-color: rgb(0, 0, 0);
+        border-radius: 10px;
+        border: 1px solid #5a5a5a52;
+    }
+
+    .card button {
+        border: none;
+        outline: 0;
+        width: 100%;
+        font-size: 15px;
+    }
+
+    @media (prefers-color-scheme: light) {
+        body img {
+            filter: invert(1);
+            margin-right: 5px;
+        }
+
+        .li1 {
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .card {
+            background-color: #f5f3f3;
+        }
+
+        #modal {
+            background-color: rgba(187, 187, 187, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal__window {
+            background-color: rgb(255, 255, 255);
+            border: 1px solid #00000052;
+        }
+
+        .modal__close {
+            color: rgb(0, 0, 0);
+        }
+
+        a {
+            color: rgb(0, 0, 0);
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        button {
+            border-radius: 20px;
+            appearance: none;
+            background: #4c4c4c;
+            color: #ffffff;
+            border: 1px solid #cbcbcb00;
+            padding: 8px 16px;
+            font-size: 17px;
+            cursor: pointer;
+            margin: 4px 2px;
+            transition: background 0.3s, color 0.3s, opacity 0.3s;
+        }
+
+        button:hover {
+            background: #5e5d5d;
+        }
+
+        button:active {
+            background: #727272;
+        }
+
+        img, svg {
+            transition: filter 0.3s;
+        }
+
+        img {
+            filter: invert(0);
+        }
+
+        svg {
+            filter: invert(1);
+        }
+
+        nav {
+            background-color: #242424;
+        }
+
+        nav a {
+            color: #ffffff;
+        }
+
+        nav a:hover {
+            background-color: #505050;
+        }
+
+        nav a:active {
+            background-color: #747474;
+        }
+
+        .sidebar {
+            background-color: #333333be;
+            backdrop-filter: blur(10px);
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .hideOnMobile {
+            display: none;
+        }
+
+        .menu-button {
+            display: block;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .sidebar {
+            width: 100%;
+        }
+    }
+</style>
+<script>
     function highlightElement(id) {
         var highlightedElements = document.querySelectorAll('.highlighted');
-        
+
         highlightedElements.forEach(function(element) {
             element.classList.remove('highlighted');
         });
@@ -94,26 +370,26 @@
         highlightElement('links');
     }
 
-          function notifyOnBirthday() {
-            const today = new Date();
-            const birthday = new Date(today.getFullYear(), 7, 4);
-            if (today.getMonth() === 7 && today.getDate() === 4) {
-                if (Notification.permission === "granted") {
-                    var notification = new Notification("Today is my birthday!");
-                } else if (Notification.permission !== "denied") {
-                    Notification.requestPermission(function (permission) {
-                        if (permission === "granted") {
-                            var notification = new Notification("Today is my birthday!");
-                        }
-                    });
-                }
+    function notifyOnBirthday() {
+        const today = new Date();
+        const birthday = new Date(today.getFullYear(), 7, 4);
+        if (today.getMonth() === 7 && today.getDate() === 4) {
+            if (Notification.permission === "granted") {
+                var notification = new Notification("Today is my birthday!");
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission(function (permission) {
+                    if (permission === "granted") {
+                        var notification = new Notification("Today is my birthday!");
+                    }
+                });
             }
         }
-    
-        notifyOnBirthday();
+    }
 
-        async function downloadSite() {
-            const zip = new JSZip();
+    notifyOnBirthday();
+
+    async function downloadSite() {
+        const zip = new JSZip();
 
         const urls = [
             'index.html',
@@ -173,344 +449,92 @@
     }
 
     function showSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      sidebar.classList.add('visible');
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.add('visible');
     }
 
     function hideSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      sidebar.classList.remove('visible');
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.remove('visible');
     }
 
     function updateTime() {
-            const options = {
-                timeZone: 'Europe/Kiev',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            };
+        const options = {
+            timeZone: 'Europe/Kiev',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        };
 
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-GB', options);
-            
-            document.getElementById('clock').textContent = timeString;
-        }
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-GB', options);
 
-        setInterval(updateTime, 1000);
+        document.getElementById('clock').textContent = timeString;
+    }
 
-        updateTime();
+    setInterval(updateTime, 1000);
 
-  </script>
+    updateTime();
 
-<style>
+</script>
+<body>
+<nav>
+    <ul class="sidebar">
+        <li class="dontcopy, li1" onclick=hideSidebar()><a><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></a></li>
+        <li class="dontcopy, li1"><a href="javascript:highlightElement('about')"><img class="img2" src="img/user.png" width="20">About me</a></li>
+        <li class="dontcopy, li1"><a href="javascript:highlightAnchor()"><img src="img/link.png" width="20">Links</a></li>
+        <li class="dontcopy, li1"><a href="javascript:downloadSite()"><img src="img/download.png" height="20">Download site</a></li>
+        <li class="dontcopy, li1"><a href="https://github.com/DimaDomaratckiy2022/adb-info"><img src="img/python.png" width="25">My program</a></li>
+    </ul>
+    <ul>
+        <li><a class="nav1" href=""> <img src="img/icon.png" class="logo" alt="logo" width="30">Dima ;)</a></li>
+        <li class="hideOnMobile"><a href="javascript:highlightElement('about')"><img src="img/user.png" width="20">About me</a></li>
+        <li class="hideOnMobile"><a href="javascript:highlightElement('links')"><img src="img/link.png" width="20">Links</a></li>
+        <li class="hideOnMobile"><a href="javascript:downloadSite()"><img src="img/download.png" height="20">Download site</a></li>
+        <li class="hideOnMobile"><a href="https://github.com/DimaDomaratckiy2022/adb-info"><img src="img/python.png" width="20">My program</a></li>
+        <li class="menu-button" onclick=showSidebar()><a class="nav1"><svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></a></li>
+    </ul>
+</nav>
+<h1 id="about" class="top1">About me</h1>
+<p>Hi my name is Dima</p>
+<p>Pronouns: he/him</p>
+<h1>Hobbies:</h1>
+<p>Create apps with Python</p>
+<p>Create websites using HTML and CSS</p>
+<p>Drawing (I'm not doing well, but I'm trying)</p>
+<h1 id="links">Links</h1>
+<div class="card">
+    <p class="p-modal">Here are the links to my social media profiles</p>
+    <a href="#modal"><button class="button-modal">Click</button></a>
+</div>
 
-#modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0,0,0,.5);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+<div id="modal">
+    <div class="modal__window">
+        <a class="modal__close" href="#">✕</a>
+        <h2>Links</h2>
+        <a href="https://www.reddit.com/user/Dima_WTF/">
+            <button><img src="img/reddit.png"  height="20" class="img1">Reddit</button>
+        </a>
+        <a href="https://www.youtube.com/@dzksosl3928">
+            <button><img src="img/youtube.png"  height="20" class="img1">YouTube</button>
+        </a>
+        <a href="https://github.com/DimaDomaratckiy2022">
+            <button><img src="img/github.png"  height="20" class="img1">Github</button>
+        </a>
+        <a href="https://x.com/Dom2010Dim">
+            <button><img src="img/twitter.png"  height="20" class="img1">Twitter</button>
+        </a>
+        <a href="https://t.me/dima_shitpost">
+            <button><img src="img/telegram.png" height="20" class="img1">Channel</button>
+        </a>
+        <a href="https://matrix.to/#/@dima-1111:matrix.org">
+            <button><img src="img/matrix.png" height="20" class="img1">Matrix</button>
+        </a>
+    </div>
+</div>
 
-a {
-  color: white;
-}
-
-.modal__window {
-  position: relative;
-  background-color: rgb(0, 0, 0);
-  border-radius: 10px;
-  border: 1px solid #5a5a5a52;
-  padding: 4em 2em;
-}
-
-.modal__close {
-  position: absolute;
-  color: rgb(255, 255, 255);
-  top: -1px;
-  padding: 10px;
-  right: 6px;
-}
-
-#modal:not(:target) {
-  visibility: hidden;
-  opacity: 0;
-}
-
-body {
-  background-color: white;
-  transition: background-color 0.3s, color 0.3s;
-  color: rgb(47, 47, 47);
-  min-height: 100vh;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-family: 'Product Sans', sans-serif;font-size: 20px;
-}
-
-a {
-  text-decoration: none;
-}
-
-button {
-  border-radius: 20px;
-  appearance: none;
-  background: #ebebeb;
-  border: 1px solid #cbcbcb00;
-  padding: 8px 16px;
-  font-size: 17px;
-  cursor: pointer;
-  margin: 4px 2px;
-  transition: background 0.3s, color 0.3s, opacity 0.3s;
-}
-
-button:hover {
-  background: #d6d6d6;
-}
-
-button:active {
-  background: #c2c1c1;
-}
-
-img {
-  transition: filter 0.3s;
-}
-
-.logo {
-  filter: invert(0);
-}
-
-h1 {
-  margin: 20px;
-}
-
-.p1 {
-  margin-top: 30px;
-}
-
-.highlighted {
-  animation: highlight 2s forwards;
-  border-radius: 5px;
-}
-
-@keyframes highlight {
-  from { background-color: rgb(142, 142, 142); }
-  to { background-color: transparent; }
-}
-
-* {
-  text-align: center;
-}
-
-.dontcopy {
-  -ms-user-select: none; 
-  -moz-user-select: none; 
-  -webkit-user-select: none; 
-  user-select: none; 
-}
-
-nav {
-  background-color: #f5f3f3;
-  border-bottom: 1px solid #48484818;
-  transition: background-color 0.3s,
-}
-
-nav ul {
-  transition: 0.3s;
-  width: 100%;
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-nav li {
-  height: 60px;
-}
-
-.li1 {
-  border-bottom: 1px solid #48484873;
-}
-
-nav a {
-  transition: color 0.3s;
-  height: 100%;
-  padding: 0 30px;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  color: black;
-}
-
-nav a:hover {
-  background-color: #cccccc;
-}
-
-nav a:active {
-  background-color: #a1a1a1;
-}
-
-nav li:first-child {
-  margin-right: auto;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 250px;
-  background-color: rgba(255, 255, 255, 0.63);
-  backdrop-filter: blur(10px);
-  border-left: 1px solid #48484818;
-  list-style: none;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  transform: translateX(100%);
-  opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.sidebar.visible {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.sidebar li {
-  width: 100%;
-}
-
-.sidebar a {
-  width: 100%;
-}
-
-.menu-button {
-  display: none;
-}
-
-img {
-		margin-right: 5px;
-} 
-
-.img1 {
-  margin-right: 15px;
-  margin-bottom: -5px;
-}
-
-@media (prefers-color-scheme: light) {
-  body img {
-  filter: invert(1);
-  margin-right: 5px;
-  }
-
-  .li1 {
-    border-bottom: 1px solid #dbdbdb;
-  }
-
-  #modal {
-    background-color: rgba(187, 187, 187, 0.5);
-    backdrop-filter: blur(10px);
-  }
-
-  .modal__window {
-    background-color: rgb(255, 255, 255);
-    border: 1px solid #00000052;
-  }
-
-  .modal__close {
-    color: rgb(0, 0, 0);
-  }
-
-  a {
-  color: rgb(0, 0, 0);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #1e1e1e;
-    color: #ffffff;
-  }
-
-  button {
-    border-radius: 20px;
-    appearance: none;
-    background: #4c4c4c;
-    color: #ffffff;
-    border: 1px solid #cbcbcb00;
-    padding: 8px 16px;
-    font-size: 17px;
-    cursor: pointer;
-    margin: 4px 2px;
-    transition: background 0.3s, color 0.3s, opacity 0.3s;
-  }
-
-  button:hover {
-    background: #5e5d5d;
-  }
-
-  button:active {
-    background: #727272;
-  }
-
-  img, svg {
-    transition: filter 0.3s;
-  }
-
-  img {
-    filter: invert(0);
-  }
-
-  svg {
-    filter: invert(1);
-  }
-
-  nav {
-    background-color: #242424;
-  }
-
-  nav a {
-    color: #ffffff;
-  }
-
-  nav a:hover {
-    background-color: #505050;
-  }
-
-  nav a:active {
-    background-color: #747474;
-  }
-
-  .sidebar {
-    background-color: #333333be;
-    backdrop-filter: blur(10px);
-  }
-}
-
-@media (max-width: 1000px) {
-  .hideOnMobile {
-    display: none;
-  }
-
-  .menu-button {
-    display: block;
-  }
-}
-
-@media (max-width: 400px) {
-  .sidebar {
-    width: 100%;
-  }
-}
-</style>
+<p class="p1">Time in my country</p>
+<div class="clock" id="clock"></div>
 </body>
 </html>
