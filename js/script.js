@@ -1,25 +1,24 @@
-function myFunction() {
-    var element = document.body;
-    element.classList.toggle("dark-mode");
+function highlightElement(id) {
+    var highlightedElements = document.querySelectorAll('.highlighted');
 
-    var favicon = document.getElementById('favicon');
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');
-    var img = new Image();
-    img.src = favicon.href;
+    highlightedElements.forEach(function(element) {
+        element.classList.remove('highlighted');
+    });
 
-    img.onload = function() {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.beginPath();
-        ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, 0, Math.PI * 2);
-        ctx.clip();
-        ctx.drawImage(img, 0, 0);
-        ctx.globalCompositeOperation = 'difference';
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        favicon.href = canvas.toDataURL('image/png');
-    };
+    var target = document.getElementById(id);
+    if (target) {
+        target.classList.remove('highlighted');
+        void target.offsetWidth;
+        target.classList.add('highlighted');
+
+        window.location.hash = id;
+    } else {
+        console.error('Element with ID "' + id + '" not found.');
+    }
+}
+
+function highlightAnchor() {
+    highlightElement('links');
 }
 
 function notifyOnBirthday() {
@@ -39,86 +38,92 @@ function notifyOnBirthday() {
 }
 
 notifyOnBirthday();
-document.addEventListener('contextmenu', function(event) {
-        event.preventDefault();
-    });
-    let currentLanguage = 'en';
 
-document.addEventListener('contextmenu', function(event) {
-        event.preventDefault();
-    });
-    function toggleLanguage() {
-if (currentLanguage === 'en') {
-    translateToRussian();
-    currentLanguage = 'ru';
-} else if (currentLanguage === 'ru') {
-    translateToUkrainian();
-    currentLanguage = 'ua';
-} else {
-    translateToEnglish();
-    currentLanguage = 'en';
+async function downloadSite() {
+    const zip = new JSZip();
+
+    const urls = [
+        'index.html',
+    ];
+
+    const photoUrls = [
+        'img/link.png',
+        'img/user.png',
+        'img/github.png',
+        'img/warning.png',
+        'img/download.png',
+        'img/reddit.png',
+        'img/icon.png',
+        'img/night-mode.png',
+        'img/light-mode.png',
+        'img/telegram.png',
+        'img/twitter.png',
+        'img/youtube.png',
+        'img/python.png',
+        'img/mail.png',
+    ];
+
+    const jsUrls = [
+        'js/script.js',
+        'js/FileSaver.min.js',
+        'js/jszip.min.js',
+    ];
+
+    const cssUrls = [
+        'css/style.css',
+    ];
+
+    async function addFilesToZip(urls) {
+        for (const url of urls) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Failed to fetch ${url}`);
+                const data = await response.blob();
+                zip.file(url, data);
+            } catch (error) {
+                console.error(`Error fetching ${url}:`, error);
+            }
+        }
+    }
+
+    await addFilesToZip(urls);
+    await addFilesToZip(photoUrls);
+    await addFilesToZip(jsUrls);
+    await addFilesToZip(cssUrls);
+
+    try {
+        const content = await zip.generateAsync({ type: 'blob' });
+        saveAs(content, 'site.zip');
+    } catch (error) {
+        console.error('Error generating ZIP file:', error);
+    }
 }
+
+function showSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.add('visible');
 }
 
-function translateToRussian() {
-    document.getElementById('about-me').innerText = 'Обо мне';
-    document.getElementById('intro').innerText = 'Привет, меня зовут Дима';
-    document.getElementById('pronouns').innerText = 'Местоимения: он/его';
-    document.getElementById('hobbies').innerText = 'Хобби:';
-    document.getElementById('hobby1').innerText = '- Создание веб-сайтов с использованием HTML и CSS';
-    document.getElementById('hobby2').innerText = '- Рисование (я не очень хорошо, но стараюсь)';
-    document.getElementById('links').innerText = 'Ссылки:';
-    document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1">Telegram канал';
-    document.getElementById('ot').innerText = 'Другое:';
-    document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6"> Скачать сайт';
-    document.getElementById('fav').innerText = 'Обо мне';
-    document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Моя программа <sup>NEW</sup>';
-    document.getElementById('credits').innerText = 'Благодарность:';
+function hideSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.remove('visible');
 }
 
-function translateToUkrainian() {
-    document.getElementById('about-me').innerText = 'Про мене';
-    document.getElementById('intro').innerText = 'Привіт, мене звати Діма';
-    document.getElementById('pronouns').innerText = 'Займенники: він/його';
-    document.getElementById('hobbies').innerText = 'Хобі:';
-    document.getElementById('hobby1').innerText = '- Створення веб-сайтів за допомогою HTML та CSS';
-    document.getElementById('hobby2').innerText = '- Малювання (я не дуже добре, але намагаюся)';
-    document.getElementById('links').innerText = 'Посилання:';
-    document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1">Telegram канал';
-    document.getElementById('ot').innerText = 'Інше:';
-    document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6">Завантажити сайт';
-    document.getElementById('fav').innerText = 'Про мене';
-    document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">Моя програма <sup>NEW</sup>';
-    document.getElementById('credits').innerText = 'Подяка:';
+function updateTime() {
+    const options = {
+        timeZone: 'Europe/Kiev',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    };
+
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-GB', options);
+
+    document.getElementById('clock').textContent = timeString;
 }
 
-function translateToEnglish() {
-    document.getElementById('about-me').innerText = 'About me';
-    document.getElementById('intro').innerText = 'Hi my name is Dima';
-    document.getElementById('pronouns').innerText = 'Pronouns: he/him';
-    document.getElementById('hobbies').innerText = 'Hobbies:';
-    document.getElementById('hobby1').innerText = '- Create websites using HTML and CSS';
-    document.getElementById('hobby2').innerText = '- Drawing (I’m not doing well, but I’m trying)';
-    document.getElementById('links').innerText = 'Links:';
-    document.getElementById('tg').innerHTML = '<img src="img/telegram.png" height="20" class="button1"> Telegram channel';
-    document.getElementById('ot').innerText = 'Other:';
-    document.getElementById('ds').innerHTML = '<img src="img/download.png" height="25" class="button6">Download site';
-    document.getElementById('fav').innerText = 'About me';
-    document.getElementById('mp').innerHTML = '<img src="img/python.png" height="25" class="button6">My program <sup>NEW</sup>';
-    document.getElementById('credits').innerText = 'Credits to:';
-}
-document.addEventListener('DOMContentLoaded', function () {
-    var liteLink = document.getElementById('lite-link');
+setInterval(updateTime, 1000);
 
-    liteLink.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        var body = document.body;
-
-        body.classList.add('fade-out');
-
-        setTimeout(function () {
-            window.location.href = liteLink.href;
-        }, 500);
-    });
-});
+updateTime();
