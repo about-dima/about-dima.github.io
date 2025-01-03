@@ -9,8 +9,8 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,.5);
-  backdrop-filter: blur(10px);
+  background-color: rgba(44, 44, 44, 0.685);
+  backdrop-filter: blur(40px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,9 +30,10 @@ a {
 
 .modal__window {
   position: relative;
-  background-color: rgb(17, 17, 17);
+  background-color: rgba(0, 0, 0, 0.801);
   border-radius: 10px;
-  border: 1px solid #5a5a5a52;
+  animation: slideIn 0.3s ease-out;
+  border: 1px solid #5a5a5ad0;
   padding: 3em 2em;
   margin: 30px;
 }
@@ -41,13 +42,41 @@ a {
   position: absolute;
   color: rgb(255, 255, 255);
   top: -1px;
-  padding: 10px;
   right: 6px;
+  padding: 10px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal__close:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+#modal:not(:target) .modal__close {
+  opacity: 0;
 }
 
 #modal:not(:target) {
   visibility: hidden;
   opacity: 0;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+#modal:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 body {
