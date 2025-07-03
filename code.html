@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D Zombie Shooter</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+        }
+        #gameCanvas {
+            display: block;
+        }
+        #uiContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* UI не перехватывает клики мыши, предназначенные для игры */
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+        #hud {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 1.5em;
+        }
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            text-align: center;
+            pointer-events: auto; /* Меню должно быть кликабельным */
+            display: none; /* Скрыто по умолчанию */
+        }
+        .menu h2 {
+            margin-top: 0;
+        }
+        .menu button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            background-color: #444;
+            color: white;
+            border: 1px solid #666;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .menu button:hover {
+            background-color: #555;
+        }
+        /* Мобильные контролы */
+        #mobileControls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none; /* Скрыто по умолчанию */
+        }
+        #d-pad {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 120px;
+            height: 120px;
+            pointer-events: auto;
+        }
+        #action-buttons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            pointer-events: auto;
+            text-align: center;
+        }
+        .d-pad-btn, .action-btn {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+        #up { top: 0; left: 40px; }
+        #down { bottom: 0; left: 40px; }
+        #left { top: 40px; left: 0; }
+        #right { top: 40px; right: 0; }
+        
+        #shootButton {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 80, 80, 0.5);
+            border-color: rgba(255, 80, 80, 0.8);
+            border-radius: 50%;
+        }
+        #menuButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(100, 100, 100, 0.5);
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: auto;
+        }
+        #loaderInput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="uiContainer">
+        <div id="hud">
+            <div id="lives">Жизни: 3</div>
+            <div id="score">Очки: 0</div>
+            <div id="bullets">Патроны: 10</div>
+        </div>
+        <div id="crosshair">+</div>
+
+        <div id="pauseMenu" class="menu">
+            <h2>Пауза</h2>
+            <button id="resumeButton">Продолжить</button>
+            <button id="saveButton">Сохранить игру</button>
+            <button id="loadButton">Загрузить игру</button>
+            <button id="restartButton">Перезапустить</button>
+        </div>
+        
+        <div id="mobileControls">
+            <div id="d-pad">
+                <div id="up" class="d-pad-btn">▲</div>
+                <div id="down" class="d-pad-btn">▼</div>
+                <div id="left" class="d-pad-btn">◄</div>
+                <div id="right" class="d-pad-btn">►</div>
+            </div>
+            <div id="action-buttons">
+                <div id="shootButton" class="action-btn"></div>
+            </div>
+             <button id="menuButton">Меню</button>
+        </div>
+    </div>
+    
+    <canvas id="gameCanvas"></canvas>
+    <input type="file" id="loaderInput" accept=".json">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+
+        // --- Глобальные переменные ---
+        let scene, camera, renderer, controls;
+        let player, playerVelocity, onGround;
+        let zombies = [], bullets = [];
+        let keys = {};
+        let lastTime = performance.now();
+        let isPaused = false;
+        let isMobile = false;
+        let clock = new THREE.Clock();
+
+        const PLAYER_HEIGHT = 1.8;
+        const PLAYER_SPEED = 5.0;
+        const JUMP_VELOCITY = 6.0;
+        const GRAVITY = -15.0;
+
+        // --- Инициализация ---
+        function init() {
+            // Определение типа устройства
+            isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            // Сцена
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x87ceeb);
+            scene.fog = new THREE.Fog(0x87ceeb, 0, 100);
+
+            // Камера
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.y = PLAYER_HEIGHT;
+
+            // Рендерер
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gameCanvas'), antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+
+            // Свет
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(-50, 50, 20);
+            dirLight.castShadow = true;
+            dirLight.shadow.camera.top = 50;
+            dirLight.shadow.camera.bottom = -50;
+            dirLight.shadow.camera.left = -50;
+            dirLight.shadow.camera.right = 50;
+            scene.add(dirLight);
+
+            // Пол
+            const groundGeo = new THREE.PlaneGeometry(200, 200);
+            const groundMat = new THREE.MeshLambertMaterial({ color: 0x7c5c42 });
+            const ground = new THREE.Mesh(groundGeo, groundMat);
+            ground.rotation.x = -Math.PI / 2;
+            ground.receiveShadow = true;
+            scene.add(ground);
+            
+            // Игрок
+            player = {
+                mesh: new THREE.Group(),
+                lives: 3,
+                score: 0,
+                bulletCount: 10,
+                collider: new THREE.Box3(new THREE.Vector3(), new THREE.Vector3())
+            };
+            player.mesh.add(camera);
+            scene.add(player.mesh);
+            playerVelocity = new THREE.Vector3();
+
+            // Управление
+            setupControls();
+            
+            // Начало игры
+            updateUI();
+            setInterval(spawnZombie, 2000);
+            animate();
+        }
+
+        // --- Управление ---
+        function setupControls() {
+            if (isMobile) {
+                setupMobileControls();
+                document.getElementById('mobileControls').style.display = 'block';
+                document.getElementById('crosshair').style.display = 'none';
+            } else {
+                setupDesktopControls();
+            }
+            
+            // Общие слушатели для меню
+            document.getElementById('resumeButton').addEventListener('click', togglePause);
+            document.getElementById('restartButton').addEventListener('click', () => location.reload());
+            document.getElementById('saveButton').addEventListener('click', saveGame);
+            document.getElementById('loadButton').addEventListener('click', () => document.getElementById('loaderInput').click());
+            document.getElementById('loaderInput').addEventListener('change', loadGame);
+
+            window.addEventListener('resize', onWindowResize);
+        }
+        
+        function setupDesktopControls() {
+            controls = new PointerLockControls(camera, document.body);
+            
+            document.body.addEventListener('click', () => {
+                if (!isPaused) controls.lock();
+            });
+
+            controls.addEventListener('lock', () => {
+                if (isPaused) {
+                    togglePause();
+                }
+            });
+
+            controls.addEventListener('unlock', () => {
+                if (!isPaused) {
+                    togglePause();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => keys[e.code] = true);
+            document.addEventListener('keyup', (e) => keys[e.code] = false);
+            document.addEventListener('mousedown', (e) => {
+                 if(e.button === 2 && controls.isLocked) { // ПКМ
+                     e.preventDefault();
+                     shoot();
+                 }
+            });
+            // отключаем контекстное меню по ПКМ
+            document.addEventListener('contextmenu', e => e.preventDefault());
+        }
+
+        function setupMobileControls() {
+            const dpad = {
+                up: document.getElementById('up'),
+                down: document.getElementById('down'),
+                left: document.getElementById('left'),
+                right: document.getElementById('right'),
+            };
+
+            for (const dir in dpad) {
+                dpad[dir].addEventListener('touchstart', (e) => { e.preventDefault(); keys[dir] = true; });
+                dpad[dir].addEventListener('touchend', (e) => { e.preventDefault(); keys[dir] = false; });
+            }
+
+            document.getElementById('shootButton').addEventListener('touchstart', (e) => { e.preventDefault(); shoot(); });
+            document.getElementById('menuButton').addEventListener('click', togglePause);
+            
+            let touchStartX = 0;
+            let touchStartY = 0;
+            
+            renderer.domElement.addEventListener('touchstart', (e) => {
+                // Игнорируем тапы по кнопкам
+                if (e.target.closest('#mobileControls')) return;
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            });
+
+            renderer.domElement.addEventListener('touchmove', (e) => {
+                if (e.target.closest('#mobileControls')) return;
+                e.preventDefault();
+                const touchX = e.touches[0].clientX;
+                const deltaX = touchX - touchStartX;
+                
+                player.mesh.rotation.y -= deltaX * 0.005;
+
+                touchStartX = touchX;
+            });
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            const menu = document.getElementById('pauseMenu');
+            if (isPaused) {
+                menu.style.display = 'block';
+                if(!isMobile) controls.unlock();
+            } else {
+                menu.style.display = 'none';
+                if(!isMobile) controls.lock();
+            }
+        }
+
+
+        // --- Логика игры ---
+        function spawnZombie() {
+            if (isPaused) return;
+
+            const zombieGeo = new THREE.BoxGeometry(0.8, 1.8, 0.8);
+            const zombieMat = new THREE.MeshLambertMaterial({ color: 0x2d632d });
+            const zombieMesh = new THREE.Mesh(zombieGeo, zombieMat);
+            zombieMesh.castShadow = true;
+
+            const angle = Math.random() * Math.PI * 2;
+            const radius = 30 + Math.random() * 20;
+            zombieMesh.position.set(
+                player.mesh.position.x + Math.sin(angle) * radius,
+                0.9,
+                player.mesh.position.z + Math.cos(angle) * radius
+            );
+            
+            const zombie = {
+                mesh: zombieMesh,
+                collider: new THREE.Box3(new THREE.Vector3(), new THREE.Vector3()),
+                speed: 1.0 + Math.random() * 0.5
+            };
+            zombie.collider.setFromObject(zombie.mesh);
+            
+            zombies.push(zombie);
+            scene.add(zombieMesh);
+        }
+
+        function shoot() {
+            if (isPaused || player.bulletCount <= 0) return;
+            player.bulletCount--;
+            updateUI();
+
+            const bulletGeo = new THREE.SphereGeometry(0.1, 8, 8);
+            const bulletMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const bulletMesh = new THREE.Mesh(bulletGeo, bulletMat);
+
+            const direction = new THREE.Vector3();
+            camera.getWorldDirection(direction);
+
+            bulletMesh.position.copy(player.mesh.position).add(direction.multiplyScalar(1));
+            bulletMesh.position.y = PLAYER_HEIGHT - 0.2;
+            
+            const bullet = {
+                mesh: bulletMesh,
+                velocity: direction.normalize().multiplyScalar(50),
+                collider: new THREE.Box3(new THREE.Vector3(), new THREE.Vector3())
+            };
+            
+            bullets.push(bullet);
+            scene.add(bulletMesh);
+        }
+
+        function updatePlayer(delta) {
+            // Гравитация
+            if (onGround) {
+                playerVelocity.y = 0;
+            } else {
+                playerVelocity.y += GRAVITY * delta;
+            }
+            
+            // Прыжок
+            if ((keys['Space'] || keys['jump']) && onGround) {
+                playerVelocity.y = JUMP_VELOCITY;
+            }
+            
+            // Движение
+            const moveDirection = new THREE.Vector3();
+            if (keys['KeyW'] || keys['up']) moveDirection.z = -1;
+            if (keys['KeyS'] || keys['down']) moveDirection.z = 1;
+            if (keys['KeyA'] || keys['left']) moveDirection.x = -1;
+            if (keys['KeyD'] || keys['right']) moveDirection.x = 1;
+            
+            moveDirection.normalize().applyQuaternion(camera.quaternion);
+            
+            playerVelocity.x = moveDirection.x * PLAYER_SPEED;
+            playerVelocity.z = moveDirection.z * PLAYER_SPEED;
+            
+            player.mesh.position.x += playerVelocity.x * delta;
+            player.mesh.position.z += playerVelocity.z * delta;
+            player.mesh.position.y += playerVelocity.y * delta;
+            
+            // Проверка столкновения с землей
+            if (player.mesh.position.y < PLAYER_HEIGHT) {
+                player.mesh.position.y = PLAYER_HEIGHT;
+                onGround = true;
+            } else {
+                onGround = false;
+            }
+
+            // Обновляем коллайдер игрока
+            player.collider.setFromCenterAndSize(player.mesh.position, new THREE.Vector3(1, PLAYER_HEIGHT, 1));
+        }
+
+        function updateZombies(delta) {
+            zombies.forEach(zombie => {
+                const direction = new THREE.Vector3().subVectors(player.mesh.position, zombie.mesh.position).normalize();
+                zombie.mesh.position.x += direction.x * zombie.speed * delta;
+                zombie.mesh.position.z += direction.z * zombie.speed * delta;
+                zombie.mesh.lookAt(player.mesh.position);
+                zombie.collider.setFromObject(zombie.mesh);
+            });
+        }
+        
+        function updateBullets(delta) {
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                const bullet = bullets[i];
+                bullet.mesh.position.add(bullet.velocity.clone().multiplyScalar(delta));
+                bullet.collider.setFromObject(bullet.mesh);
+
+                if (bullet.mesh.position.distanceTo(player.mesh.position) > 200) {
+                    scene.remove(bullet.mesh);
+                    bullets.splice(i, 1);
+                }
+            }
+        }
+        
+        function checkCollisions() {
+            // Пули и зомби
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                for (let j = zombies.length - 1; j >= 0; j--) {
+                    if (bullets[i] && zombies[j] && bullets[i].collider.intersectsBox(zombies[j].collider)) {
+                        scene.remove(bullets[i].mesh);
+                        bullets.splice(i, 1);
+                        scene.remove(zombies[j].mesh);
+                        zombies.splice(j, 1);
+                        
+                        player.score += 10;
+                        player.bulletCount += 5; // Бонус
+                        updateUI();
+                        break; 
+                    }
+                }
+            }
+
+            // Зомби и игрок
+            for (let i = zombies.length - 1; i >= 0; i--) {
+                if (zombies[i].collider.intersectsBox(player.collider)) {
+                    scene.remove(zombies[i].mesh);
+                    zombies.splice(i, 1);
+                    player.lives--;
+                    updateUI();
+                    if (player.lives <= 0) {
+                        gameOver();
+                    }
+                }
+            }
+        }
+        
+        function gameOver() {
+            if(isPaused) togglePause();
+            isPaused = true;
+            if(!isMobile) controls.unlock();
+            setTimeout(() => {
+                alert(`Игра окончена! Ваши очки: ${player.score}`);
+                location.reload();
+            }, 100);
+        }
+
+        // --- UI и вспомогательные функции ---
+        function updateUI() {
+            document.getElementById('lives').textContent = `Жизни: ${player.lives}`;
+            document.getElementById('score').textContent = `Очки: ${player.score}`;
+            document.getElementById('bullets').textContent = `Патроны: ${player.bulletCount}`;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // --- Сохранение и Загрузка ---
+        function saveGame() {
+            const gameState = {
+                player: {
+                    position: player.mesh.position,
+                    rotation: player.mesh.rotation.y,
+                    lives: player.lives,
+                    score: player.score,
+                    bulletCount: player.bulletCount
+                },
+                zombies: zombies.map(z => ({
+                    position: z.mesh.position,
+                    speed: z.speed
+                }))
+            };
+            
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(gameState, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "zombie_shooter_save.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function loadGame(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const gameState = JSON.parse(e.target.result);
+                    
+                    // Очищаем старых зомби
+                    zombies.forEach(z => scene.remove(z.mesh));
+                    zombies = [];
+
+                    // Загружаем состояние игрока
+                    player.mesh.position.set(gameState.player.position.x, gameState.player.position.y, gameState.player.position.z);
+                    player.mesh.rotation.y = gameState.player.rotation;
+                    player.lives = gameState.player.lives;
+                    player.score = gameState.player.score;
+                    player.bulletCount = gameState.player.bulletCount;
+
+                    // Создаем зомби из сохранения
+                    gameState.zombies.forEach(zombieData => {
+                        const zombieGeo = new THREE.BoxGeometry(0.8, 1.8, 0.8);
+                        const zombieMat = new THREE.MeshLambertMaterial({ color: 0x2d632d });
+                        const zombieMesh = new THREE.Mesh(zombieGeo, zombieMat);
+                        zombieMesh.castShadow = true;
+                        zombieMesh.position.set(zombieData.position.x, zombieData.position.y, zombieData.position.z);
+                        
+                        const zombie = {
+                            mesh: zombieMesh,
+                            collider: new THREE.Box3(new THREE.Vector3(), new THREE.Vector3()),
+                            speed: zombieData.speed
+                        };
+                        zombies.push(zombie);
+                        scene.add(zombieMesh);
+                    });
+                    
+                    updateUI();
+                    togglePause(); // Выходим из меню после загрузки
+
+                } catch (error) {
+                    alert("Ошибка при чтении файла сохранения: " + error);
+                } finally {
+                    // Сбрасываем значение input, чтобы можно было загрузить тот же файл еще раз
+                    event.target.value = null;
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // --- Основной цикл ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const delta = clock.getDelta();
+
+            if (!isPaused) {
+                updatePlayer(delta);
+                updateZombies(delta);
+                updateBullets(delta);
+                checkCollisions();
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // --- Запуск ---
+        init();
+    </script>
+</body>
+</html>
