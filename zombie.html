@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3D Zombie Shooter</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #000;
+            color: white;
+            -webkit-user-select: none; /* Disable text selection for mobile */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        canvas { 
+            display: block; 
+        }
+        #ui-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks to pass through to canvas by default */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        #game-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            text-align: left;
+            font-size: 1.2em;
+            pointer-events: none; /* So mouse doesn't get stuck on it */
+        }
+        .menu { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            background: rgba(0, 0, 0, 0.85); 
+            color: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            pointer-events: auto; /* Allow clicks on menu elements */
+            z-index: 100;
+            min-width: 250px;
+        }
+        .menu h2 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        .menu button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .menu button:hover {
+            background-color: #45a049;
+        }
+        .menu button:active {
+            background-color: #3e8e41;
+        }
+        
+        /* Mobile Controls */
+        #mobile-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: auto; /* Allow clicks */
+            flex-wrap: wrap;
+            padding: 0 10px;
+            box-sizing: border-box;
+            gap: 10px;
+        }
+
+        #mobile-controls .left-pad, #mobile-controls .right-pad {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        #mobile-controls .control-button {
+            background: rgba(76, 175, 80, 0.7);
+            border: 2px solid #4CAF50;
+            color: white;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            touch-action: manipulation; /* Prevent default touch actions like double-tap zoom */
+        }
+        #mobile-controls .control-button:active {
+            background: rgba(76, 175, 80, 1);
+        }
+
+        #mobile-controls #shoot-button {
+            background-color: #f44336;
+            border-color: #f44336;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            align-self: flex-end; /* Align to the bottom right */
+        }
+        #mobile-controls #shoot-button:active {
+            background-color: #da190b;
+        }
+        
+        #top-right-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: auto;
+        }
+
+        #top-right-buttons .ui-button {
+            background-color: rgba(0, 123, 255, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        #top-right-buttons .ui-button:hover {
+            background-color: rgba(0, 123, 255, 0.9);
+        }
+        #top-right-buttons .ui-button:active {
+            background-color: rgba(0, 123, 255, 1);
+        }
+
+        /* Hide desktop specific elements on mobile */
+        @media (min-width: 768px) {
+            #mobile-controls, #top-right-buttons {
+                display: none !important;
+            }
+        }
+        /* Hide mobile specific elements on desktop */
+        @media (max-width: 767px) {
+             #desktop-hint {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="ui-container">
+        <div id="game-info">
+            <div id="lives-display">Lives: 3</div>
+            <div id="score-display">Score: 0</div>
+            <div id="bullets-display">Bullets: 10</div>
+        </div>
+
+        <div id="pauseMenu" class="menu">
+            <h2 id="menu-title">Paused</h2>
+            <button id="resumeButton">Продолжить игру</button>
+            <button id="restartButton">Перезапустить игру</button>
+            <button id="saveGameButton">Сохранить игру</button>
+            <button id="loadGameButton">Загрузить игру</button>
+            <input type="file" id="fileInput" accept=".json" style="display: none;">
+        </div>
+
+        <div id="buyMenu" class="menu">
+            <h2>Купить патроны</h2>
+            <p>Стоимость: 10 очков за 10 патронов</p>
+            <button id="buyButton">Купить</button>
+            <button id="cancelButton">Отмена</button>
+        </div>
+
+        <div id="mobile-controls">
+            <div class="left-pad">
+                <button id="moveForwardButton" class="control-button">↑</button>
+                <div style="display: flex; gap: 5px;">
+                    <button id="moveLeftButton" class="control-button">←</button>
+                    <button id="moveBackButton" class="control-button">↓</button>
+                    <button id="moveRightButton" class="control-button">→</button>
+                </div>
+            </div>
+            <div class="right-pad">
+                <button id="shoot-button" class="control-button">🔥</button>
+            </div>
+        </div>
+
+        <div id="top-right-buttons">
+            <button id="mobileMenuButton" class="ui-button">Меню</button>
+            <button id="mobileShopButton" class="ui-button">Магазин</button>
+        </div>
+        
+        <div id="desktop-hint" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); padding: 15px; border-radius: 8px; font-size: 1.1em; text-align: center;">
+            Нажмите, чтобы начать и захватить курсор
+            <br><small>(Нажмите ESC, чтобы освободить курсор и открыть меню)</small>
+        </div>
+    </div>
+
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/examples/js/controls/PointerLockControls.js"></script>
+    <!-- Add other Three.js examples if needed for OrbitControls for mobile, but custom touch is better for FPS -->
+
+    <script>
+        // --- THREE.JS SETUP ---
+        let scene, camera, renderer, controls;
+        let clock = new THREE.Clock();
+        const playerSpeed = 5; // units per second
+        const bulletSpeed = 50; // units per second
+        const zombieSpeed = 1; // units per second
+        const zombieSpawnInterval = 1000; // ms
+
+        // --- GAME STATE ---
+        let player = { lives: 3 };
+        let zombies = [];
+        let bullets = [];
+        let score = 0;
+        let bulletCount = 10;
+        let isPaused = true; // Start paused
+        let isBuying = false;
+        let spawnZombies = false; // Initially false, enable after resume/start
+        let lastZombieSpawnTime = 0;
+        let gameOverState = false;
+
+        // --- UI ELEMENTS ---
+        const livesDisplay = document.getElementById('lives-display');
+        const scoreDisplay = document.getElementById('score-display');
+        const bulletsDisplay = document.getElementById('bullets-display');
+        const pauseMenu = document.getElementById('pauseMenu');
+        const buyMenu = document.getElementById('buyMenu');
+        const resumeButton = document.getElementById('resumeButton');
+        const restartButton = document.getElementById('restartButton');
+        const saveGameButton = document.getElementById('saveGameButton');
+        const loadGameButton = document.getElementById('loadGameButton');
+        const fileInput = document.getElementById('fileInput');
+        const buyButton = document.getElementById('buyButton');
+        const cancelButton = document.getElementById('cancelButton');
+        const uiContainer = document.getElementById('ui-container');
+        const desktopHint = document.getElementById('desktop-hint');
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileShopButton = document.getElementById('mobileShopButton');
+        const shootButton = document.getElementById('shoot-button');
+
+        // Mobile specific controls
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            document.getElementById('mobile-controls').style.display = 'flex';
+            document.getElementById('top-right-buttons').style.display = 'flex';
+        } else {
+            document.getElementById('mobile-controls').style.display = 'none';
+            document.getElementById('top-right-buttons').style.display = 'none';
+        }
+
+        // --- GAME INITIALIZATION ---
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x333333); // Dark background
+
+            // Camera (Player's View)
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 1.8, 0); // Player height, starting at origin
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 7);
+            scene.add(directionalLight);
+
+            // Floor
+            const floorGeometry = new THREE.PlaneGeometry(100, 100);
+            const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x808080, side: THREE.DoubleSide });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = Math.PI / 2; // Rotate to be flat
+            scene.add(floor);
+
+            // PointerLockControls (for desktop mouse look)
+            controls = new THREE.PointerLockControls(camera, document.body);
+
+            // Event Listeners
+            // For desktop, click canvas to enable pointer lock
+            renderer.domElement.addEventListener('click', () => {
+                if (!isMobile && isPaused && !gameOverState && !isBuying) {
+                     controls.lock();
+                }
+            });
+
+            controls.addEventListener('lock', () => {
+                isPaused = false;
+                spawnZombies = true;
+                desktopHint.style.display = 'none';
+                updateMenuVisibility();
+                uiContainer.style.pointerEvents = 'none'; // Prevent clicks on UI
+            });
+
+            controls.addEventListener('unlock', () => {
+                if (!gameOverState && !isBuying) { // Don't pause if game is over or in shop
+                    isPaused = true;
+                    spawnZombies = false;
+                    updateMenuVisibility();
+                    uiContainer.style.pointerEvents = 'auto'; // Re-enable clicks on UI
+                }
+            });
+
+            window.addEventListener('resize', onWindowResize);
+            document.addEventListener('keydown', onKeyDown);
+            document.addEventListener('keyup', onKeyUp);
+            document.addEventListener('mousedown', onMouseDown);
+            // Prevent right-click context menu
+            document.addEventListener('contextmenu', (event) => event.preventDefault());
+
+            // UI Buttons
+            resumeButton.addEventListener('click', resumeGame);
+            restartButton.addEventListener('click', restartGame);
+            saveGameButton.addEventListener('click', saveGame);
+            loadGameButton.addEventListener('click', () => fileInput.click()); // Trigger file input click
+            fileInput.addEventListener('change', loadGame);
+            buyButton.addEventListener('click', buyBullets);
+            cancelButton.addEventListener('click', cancelBuying);
+
+            // Mobile UI Buttons
+            if (isMobile) {
+                mobileMenuButton.addEventListener('click', togglePauseMenu);
+                mobileShopButton.addEventListener('click', toggleBuyMenu);
+                shootButton.addEventListener('touchstart', (event) => { event.preventDefault(); onShootInput(true); }, { passive: false });
+                shootButton.addEventListener('touchend', (event) => { event.preventDefault(); onShootInput(false); });
+                
+                // Mobile virtual joystick (simplified)
+                const moveForwardButton = document.getElementById('moveForwardButton');
+                const moveBackButton = document.getElementById('moveBackButton');
+                const moveLeftButton = document.getElementById('moveLeftButton');
+                const moveRightButton = document.getElementById('moveRightButton');
+
+                const movementButtons = [
+                    { element: moveForwardButton, key: 'w' },
+                    { element: moveBackButton, key: 's' },
+                    { element: moveLeftButton, key: 'a' },
+                    { element: moveRightButton, key: 'd' }
+                ];
+
+                movementButtons.forEach(({ element, key }) => {
+                    element.addEventListener('touchstart', (e) => { e.preventDefault(); keys[key] = true; }, { passive: false });
+                    element.addEventListener('touchend', (e) => { e.preventDefault(); keys[key] = false; });
+                    element.addEventListener('touchcancel', (e) => { e.preventDefault(); keys[key] = false; }); // Handle touch leave
+                });
+
+                // Touch camera controls for mobile
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let isTouchingCamera = false;
+                renderer.domElement.addEventListener('touchstart', (event) => {
+                    if (event.touches.length === 1 && !isPaused && !isBuying && !event.target.closest('#mobile-controls')) {
+                        isTouchingCamera = true;
+                        touchStartX = event.touches[0].clientX;
+                        touchStartY = event.touches[0].clientY;
+                    }
+                }, { passive: true });
+                renderer.domInElement.addEventListener('touchmove', (event) => {
+                    if (isTouchingCamera && event.touches.length === 1 && !isPaused && !isBuying) {
+                        const touch = event.touches[0];
+                        const deltaX = touch.clientX - touchStartX;
+                        const deltaY = touch.clientY - touchStartY;
+                        
+                        // Apply rotation (simplified, may need fine-tuning for sensitivity)
+                        camera.rotation.y -= deltaX * 0.005; // Yaw
+                        camera.rotation.x -= deltaY * 0.005; // Pitch
+                        
+                        // Clamp vertical rotation to prevent flipping
+                        camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+
+                        touchStartX = touch.clientX;
+                        touchStartY = touch.clientY;
+                    }
+                }, { passive: true });
+                renderer.domElement.addEventListener('touchend', () => {
+                    isTouchingCamera = false;
+                }, { passive: true });
+                renderer.domElement.addEventListener('touchcancel', () => {
+                    isTouchingCamera = false;
+                }, { passive: true });
+
+            }
+            
+            resetGame(); // Set initial state
+            updateUI();
+            gameLoop(); // Start the game loop
+            updateMenuVisibility(); // Show initial pause menu
+        }
+
+        // --- GAME LOGIC ---
+        let keys = { w: false, a: false, s: false, d: false };
+        let shootRequested = false;
+
+        function onKeyDown(event) {
+            switch (event.key.toLowerCase()) {
+                case 'w': keys.w = true; break;
+                case 'a': keys.a = true; break;
+                case 's': keys.s = true; break;
+                case 'd': keys.d = true; break;
+                case 'escape': togglePauseMenu(); break;
+                case 'b': if (!isPaused) toggleBuyMenu(); break;
+            }
+        }
+
+        function onKeyUp(event) {
+            switch (event.key.toLowerCase()) {
+                case 'w': keys.w = false; break;
+                case 'a': keys.a = false; break;
+                case 's': keys.s = false; break;
+                case 'd': keys.d = false; break;
+            }
+        }
+        
+        function onMouseDown(event) {
+            if (!isPaused && !gameOverState) {
+                if (event.button === 2) { // Right-click
+                    shootRequested = true;
+                }
+            }
+        }
+
+        function onShootInput(isDown) { // For both mouse and touch
+            shootRequested = isDown;
+        }
+
+        function shoot() {
+            if (bulletCount > 0) {
+                // Get camera's forward direction
+                const direction = new THREE.Vector3();
+                camera.getWorldDirection(direction);
+
+                // Bullet starting position slightly in front of camera
+                const bulletPosition = camera.position.clone().add(direction.multiplyScalar(1));
+
+                const bulletGeometry = new THREE.BoxGeometry(0.2, 0.2, 0.5);
+                const bulletMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+                const bulletMesh = new THREE.Mesh(bulletGeometry, bulletMaterial);
+                bulletMesh.position.copy(bulletPosition);
+                
+                // Align bullet with camera direction
+                bulletMesh.quaternion.copy(camera.quaternion);
+
+                scene.add(bulletMesh);
+
+                bullets.push({
+                    mesh: bulletMesh,
+                    direction: direction.normalize(),
+                    speed: bulletSpeed
+                });
+                bulletCount--;
+                updateUI();
+                shootRequested = false; // Consume shot
+            }
+        }
+
+        function spawnZombie() {
+            if (spawnZombies && !gameOverState) {
+                // Spawn within a reasonable distance from player, not on top
+                const spawnDistance = 20; // units
+                const angle = Math.random() * Math.PI * 2;
+                const x = camera.position.x + spawnDistance * Math.cos(angle);
+                const z = camera.position.z + spawnDistance * Math.sin(angle);
+                const y = 1; // Z axis for zombies in your game is like Y in 3D (height)
+
+                const zombieGeometry = new THREE.BoxGeometry(1, 2, 1); // Zombie is 1x2x1 box
+                const zombieMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+                const zombieMesh = new THREE.Mesh(zombieGeometry, zombieMaterial);
+                zombieMesh.position.set(x, y, z);
+                zombieMesh.userData = { health: 1 }; // Store game data on mesh
+
+                scene.add(zombieMesh);
+                zombies.push(zombieMesh);
+            }
+        }
+
+        function updateGame(delta) {
+            if (gameOverState) return;
+
+            // Player movement
+            if (controls.isLocked) {
+                const moveDistance = playerSpeed * delta;
+                if (keys.w) controls.moveForward(moveDistance);
+                if (keys.s) controls.moveForward(-moveDistance);
+                if (keys.a) controls.moveRight(-moveDistance);
+                if (keys.d) controls.moveRight(moveDistance);
+            }
+            
+            // Limit player to floor (Y-axis)
+            camera.position.y = 1.8;
+
+            // Shoot logic
+            if (shootRequested) {
+                shoot();
+            }
+
+            // Update Bullets
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                const bullet = bullets[i];
+                bullet.mesh.position.add(bullet.direction.clone().multiplyScalar(bullet.speed * delta));
+
+                // Check bullet-zombie collision
+                let hitZombie = false;
+                for (let j = zombies.length - 1; j >= 0; j--) {
+                    const zombie = zombies[j];
+                    const bulletBox = new THREE.Box3().setFromObject(bullet.mesh);
+                    const zombieBox = new THREE.Box3().setFromObject(zombie);
+
+                    if (bulletBox.intersectsBox(zombieBox)) {
+                        zombie.userData.health--;
+                        if (zombie.userData.health <= 0) {
+                            scene.remove(zombie);
+                            zombies.splice(j, 1);
+                            score += 10;
+                            updateUI();
+                        }
+                        scene.remove(bullet.mesh);
+                        bullets.splice(i, 1);
+                        hitZombie = true;
+                        break; // Bullet can only hit one zombie
+                    }
+                }
+
+                // Remove bullet if out of range or hit
+                if (!hitZombie && bullet.mesh.position.distanceTo(camera.position) > 100) {
+                    scene.remove(bullet.mesh);
+                    bullets.splice(i, 1);
+                }
+            }
+
+            // Update Zombies
+            for (let i = zombies.length - 1; i >= 0; i--) {
+                const zombie = zombies[i];
+                const directionToPlayer = new THREE.Vector3().subVectors(camera.position, zombie.position).normalize();
+                zombie.position.add(directionToPlayer.multiplyScalar(zombieSpeed * delta));
+                
+                // Make zombie face the player (optional, but nice touch)
+                zombie.lookAt(camera.position.x, zombie.position.y, camera.position.z);
+
+                // Check zombie-player collision
+                const playerDistanceThreshold = 1.5; // Roughly player radius + zombie radius
+                if (zombie.position.distanceTo(camera.position) < playerDistanceThreshold) {
+                    player.lives--;
+                    updateUI();
+                    if (player.lives <= 0) {
+                        gameOver();
+                    } else {
+                        // Push zombie back after hit (simple knockback)
+                        zombie.position.sub(directionToPlayer.multiplyScalar(3));
+                    }
+                }
+            }
+
+            // Zombie spawning timer
+            const currentTime = performance.now();
+            if (spawnZombies && currentTime - lastZombieSpawnTime > zombieSpawnInterval) {
+                spawnZombie();
+                lastZombieSpawnTime = currentTime;
+            }
+        }
+
+        function gameLoop() {
+            requestAnimationFrame(gameLoop);
+
+            const delta = clock.getDelta(); // Time elapsed since last frame
+
+            if (!isPaused && !gameOverState) {
+                updateGame(delta);
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // --- UI AND GAME STATE MANAGEMENT ---
+
+        function updateUI() {
+            livesDisplay.textContent = `Lives: ${player.lives}`;
+            scoreDisplay.textContent = `Score: ${score}`;
+            bulletsDisplay.textContent = `Bullets: ${bulletCount}`;
+        }
+
+        function togglePauseMenu() {
+            if (gameOverState) return; // Don't toggle if game is over
+
+            isPaused = !isPaused;
+            spawnZombies = !isPaused;
+            updateMenuVisibility();
+            if (isPaused) {
+                controls.unlock(); // Release pointer lock
+                uiContainer.style.pointerEvents = 'auto'; // Re-enable clicks on UI
+            } else {
+                if (!isMobile) { // On desktop, re-lock pointer for game to resume
+                    controls.lock();
+                } else { // On mobile, just hide menu and resume
+                    uiContainer.style.pointerEvents = 'none'; // Prevent clicks on UI
+                }
+            }
+        }
+
+        function toggleBuyMenu() {
+            if (gameOverState) return;
+            
+            isBuying = !isBuying;
+            spawnZombies = !isBuying;
+            updateMenuVisibility();
+            if (isBuying) {
+                controls.unlock(); // Release pointer lock
+                uiContainer.style.pointerEvents = 'auto';
+            } else {
+                 if (!isMobile) {
+                    controls.lock();
+                } else {
+                    uiContainer.style.pointerEvents = 'none';
+                }
+            }
+        }
+
+        function updateMenuVisibility() {
+            pauseMenu.style.display = isPaused && !isBuying ? 'flex' : 'none';
+            buyMenu.style.display = isBuying ? 'flex' : 'none';
+            desktopHint.style.display = isPaused && !isBuying && !isMobile ? 'block' : 'none';
+        }
+
+        function resumeGame() {
+            isPaused = false;
+            spawnZombies = true;
+            updateMenuVisibility();
+            if (!isMobile) {
+                controls.lock();
+            } else {
+                uiContainer.style.pointerEvents = 'none';
+            }
+        }
+
+        function buyBullets() {
+            if (score >= 10) {
+                score -= 10;
+                bulletCount += 10;
+                updateUI();
+                cancelBuying(); // Close buy menu
+            } else {
+                alert('Недостаточно очков! Нужно 10 очков.');
+            }
+        }
+
+        function cancelBuying() {
+            isBuying = false;
+            spawnZombies = true;
+            updateMenuVisibility();
+            if (!isMobile) {
+                controls.lock();
+            } else {
+                uiContainer.style.pointerEvents = 'none';
+            }
+        }
+
+        function gameOver() {
+            gameOverState = true;
+            isPaused = true;
+            spawnZombies = false;
+            updateMenuVisibility();
+            controls.unlock();
+            uiContainer.style.pointerEvents = 'auto';
+            document.getElementById('menu-title').textContent = 'Игра Окончена!';
+            pauseMenu.style.display = 'flex'; // Ensure menu is shown
+            alert('Игра окончена! У вас не осталось жизней.');
+        }
+
+        function resetGame() {
+            // Clear all existing game objects
+            zombies.forEach(zombie => scene.remove(zombie));
+            bullets.forEach(bullet => scene.remove(bullet.mesh));
+            zombies = [];
+            bullets = [];
+
+            // Reset game state
+            player.lives = 3;
+            score = 0;
+            bulletCount = 10;
+            gameOverState = false;
+            isPaused = true; // Start in paused state
+            isBuying = false;
+            spawnZombies = false;
+            lastZombieSpawnTime = 0;
+
+            // Reset player position (camera)
+            camera.position.set(0, 1.8, 0);
+            camera.rotation.set(0, 0, 0); // Reset camera rotation
+            if (controls.isLocked) {
+                controls.unlock(); // Ensure controls are unlocked
+            }
+            controls.connect(); // Reconnect controls just in case
+
+            updateUI();
+            document.getElementById('menu-title').textContent = 'Пауза'; // Reset menu title
+            updateMenuVisibility();
+        }
+
+        function restartGame() {
+            resetGame();
+            resumeGame(); // Immediately resume after restart
+        }
+
+        // --- SAVE/LOAD GAME ---
+        function saveGame() {
+            const gameState = {
+                score: score,
+                bulletCount: bulletCount,
+                lives: player.lives,
+                // Add any other state you want to save, e.g., player position, but not critical for this simple game
+                playerPosition: {
+                    x: camera.position.x,
+                    y: camera.position.y,
+                    z: camera.position.z
+                },
+                playerRotation: {
+                    x: camera.rotation.x,
+                    y: camera.rotation.y,
+                    z: camera.rotation.z
+                },
+                zombiesData: zombies.map(z => ({
+                    position: { x: z.position.x, y: z.position.y, z: z.position.z },
+                    health: z.userData.health
+                }))
+            };
+
+            const dataStr = JSON.stringify(gameState, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'zombie_shooter_save.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('Игра сохранена как zombie_shooter_save.json!');
+        }
+
+        function loadGame(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const loadedState = JSON.parse(e.target.result);
+
+                    // Clear current game state before loading
+                    resetGame(); // This clears zombies and bullets
+
+                    score = loadedState.score || 0;
+                    bulletCount = loadedState.bulletCount || 0;
+                    player.lives = loadedState.lives || 3;
+
+                    if (loadedState.playerPosition) {
+                        camera.position.set(loadedState.playerPosition.x, loadedState.playerPosition.y, loadedState.playerPosition.z);
+                    }
+                    if (loadedState.playerRotation) {
+                        camera.rotation.set(loadedState.playerRotation.x, loadedState.playerRotation.y, loadedState.playerRotation.z);
+                        // For PointerLockControls, you might also need to update its internal quaternion
+                        // This is a bit tricky, simpler to let it re-lock and adjust if needed.
+                    }
+
+                    if (loadedState.zombiesData) {
+                        loadedState.zombiesData.forEach(zData => {
+                            const zombieGeometry = new THREE.BoxGeometry(1, 2, 1);
+                            const zombieMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+                            const zombieMesh = new THREE.Mesh(zombieGeometry, zombieMaterial);
+                            zombieMesh.position.set(zData.position.x, zData.position.y, zData.position.z);
+                            zombieMesh.userData = { health: zData.health };
+                            scene.add(zombieMesh);
+                            zombies.push(zombieMesh);
+                        });
+                    }
+
+                    updateUI();
+                    alert('Игра успешно загружена!');
+                    resumeGame(); // Resume after loading
+                } catch (error) {
+                    console.error('Ошибка загрузки сохранения:', error);
+                    alert('Не удалось загрузить сохранение. Возможно, файл поврежден или имеет неверный формат.');
+                    resetGame(); // Fallback to fresh game if load fails
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Clear file input for next time
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // --- START GAME ---
+        init();
+    </script>
+</body>
+</html>
